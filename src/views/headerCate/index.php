@@ -14,12 +14,11 @@ use Tools\TableHeader;
  * Version      :   1.0
  *
  * @var \Program\Components\Controller $this
- * @var array $pager
  * @var boolean $isSuper
+ * @var array $pager
  * @var array $fixer
  */
-?>
-    <?php echo Html::beginForm(['program/headerCate/index'], 'get', [
+echo Html::beginForm(['program/headerCate/index'], 'get', [
     'class' => 'form-inline margin-bottom',
 ]); ?>
     <?php if ($isSuper) { ?>

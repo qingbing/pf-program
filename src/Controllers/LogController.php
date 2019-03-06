@@ -3,7 +3,7 @@
 namespace Program\Controllers;
 // 引用类
 use DbSupports\Builder\Criteria;
-use Program\components\Controller;
+use Program\Components\Controller;
 use Program\Components\Log;
 use Program\Components\Pub;
 
@@ -16,7 +16,7 @@ use Program\Components\Pub;
  */
 class LogController extends Controller
 {
-    /* @var boolean 登录人员是否超管 */
+    /* @var boolean 是否超管 */
     protected $isSuper;
 
     /**
@@ -45,11 +45,15 @@ class LogController extends Controller
             ->setOrder('`id` DESC');
         if (!$this->isSuper) {
             $criteria->addWhere('`uid`=:uid')
-                ->addParam(':uid', \PF::app()->getUser()->getUid());
+                ->addParam(':uid', Pub::getUser()->getUid());
         }
         if (isset($fixer['type']) && '' !== $fixer['type']) {
             $criteria->addWhere('`type`=:type')
                 ->addParam(':type', $fixer['type']);
+        }
+        if (isset($fixer['keyword']) && '' !== $fixer['keyword']) {
+            $criteria->addWhere('`keyword`=:keyword')
+                ->addParam(':keyword', $fixer['keyword']);
         }
         // 分页数据查询
         $pager = Pub::getApp()->getDb()->pagination($criteria);
@@ -64,7 +68,7 @@ class LogController extends Controller
 
     /**
      * 登录日志
-     * todo
+     * @throws \Exception
      */
     public function actionLogin()
     {
@@ -91,12 +95,12 @@ class LogController extends Controller
 
     /**
      * 日志明细
-     * todo
+     * @throws \Exception
      */
     public function actionDetail()
     {
         // 数据准备
-        $log = Pub::getApp()->getDb()->createFindCommand()
+        $log = Pub::getApp()->getDb()->getFindBuilder()
             ->setTable('program_operate_log')
             ->addWhere('`id`=:id')
             ->addParam(':id', $this->getActionParam('id'))

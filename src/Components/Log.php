@@ -41,4 +41,32 @@ class Log extends OperateLog
     const OPERATE_TYPE_ACCESS = 'access';
     const OPERATE_TYPE_BLOCK = 'block';
     const OPERATE_TYPE_STATIC_CONTENT = 'static-content';
+
+    /**
+     * 是或否
+     * @param bool|false $withAll
+     * @return array
+     */
+    static public function type($withAll = false)
+    {
+        $data = [
+            '' => '全部',
+            self::OPERATE_TYPE_LOGIN => '登录日志',
+            self::OPERATE_TYPE_PERSONAL => '自我维护',
+            self::OPERATE_TYPE_MATE => '程序员管理',
+            self::OPERATE_TYPE_ADMIN => '管理员管理',
+            self::OPERATE_TYPE_TABLE_HEADER => '表头配置',
+            self::OPERATE_TYPE_FORM_SETTING => '表单配置',
+            self::OPERATE_TYPE_REPLACE_SETTING => '替换模板',
+            self::OPERATE_TYPE_NAV => '导航管理',
+            self::OPERATE_TYPE_ACCESS => '权限控制',
+            self::OPERATE_TYPE_BLOCK => '区块管理',
+            self::OPERATE_TYPE_STATIC_CONTENT => '静态内容',
+        ];
+        if (!$withAll) {
+            array_shift($data);
+        }
+        return $data;
+    }
+
 }

@@ -1,8 +1,13 @@
 <?php
 // 申明命名空间
 namespace Program\Controllers;
+
 // 引用类
+use Helper\Format;
 use Html;
+use Program\Components\Log;
+use Tools\Labels;
+use Tools\TableHeader;
 
 /**
  * Created by generate tool of phpcorner.
@@ -11,23 +16,50 @@ use Html;
  * Date         :   2019-03-05
  * Version      :   1.0
  *
- * @var \Program\components\Controller $this
+ * @var \Program\Components\Controller $this
+ * @var array $pager
+ * @var array $fixer
  */
-?>
-<h3 class="page-header">Welcome to <i><?php echo Html::encode(\PF::app()->name); ?></i></h3>
-<div class="form-group row">
-    <div class="alert alert-info">
-        <p>Congratulations! You have successfully created your application.</p>
-        <p>You may change the content of this page by modifying the following two files:</p>
-    </div>
-</div>
-<ul>
-    <li>View file: <code><?php echo __FILE__; ?></code></li>
-    <li>Layout file: <code><?php echo $this->getLayoutFile($this->layout); ?></code></li>
-</ul>
-<blockquote>
-    <p>
-        For more details on how to further develop this application,
-        please visit the <a href="<?php echo \PF::home(); ?>" target="_blank">official website</a>.
-    </p>
-</blockquote>
+echo Html::beginForm(['program/log/index'], 'get', [
+    'class' => 'form-inline margin-bottom',
+]); ?>
+<dl class="form-group inline">
+    <dt class="control-label">日志类型:</dt>
+    <dd>
+        <?php echo Html::dropDownList('type', (isset($fixer['type']) ? $fixer['type'] : ''), Log::type(true), [
+            'class' => 'form-control',
+        ]); ?>
+    </dd>
+</dl>
+<dl class="form-group inline">
+    <dt class="control-label">关键字:</dt>
+    <dd>
+        <?php echo Html::textField('keyword', (isset($fixer['keyword']) ? $fixer['keyword'] : ''), [
+            'class' => 'form-control',
+        ]); ?>
+    </dd>
+</dl>
+<dl class="form-group inline">
+    <dd>
+        <button class="btn btn-info"><i class="fa fa-search"></i>查询</button>
+    </dd>
+</dl>
+<?php echo Html::endForm(); ?>
+
+<?php
+// 操作日志类型
+$logTypes = Log::type();
+// 列表显示
+$this->widget('\Widgets\TableView', [
+    'header' => TableHeader::getHeader('program-log-list'),
+    'dataProcessing' => function ($data) use ($logTypes) {
+        $process = [
+            'type' => Format::dataValue($data['type'], $logTypes),
+            'is_success' => Labels::YesNo($data['is_success']),
+            'operate' => '<a href="' . $this->createUrl('detail', ['id' => $data['id']]) . '" class="text-info w-modal" data-mode="custom"><i class="fa fa-list-alt">Detail</i></a>',
+        ];
+        return $process;
+    },
+    'data' => $pager['result'],
+    'pager' => $pager,
+]) ?>
