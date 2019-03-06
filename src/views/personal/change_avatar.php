@@ -8,13 +8,11 @@ use Html;
  * @var \Program\Components\Controller $this
  * @var \Program\Models\User $model
  */
-?>
-<?php echo Html::beginForm('', 'post', [
+echo Html::beginForm('', 'post', [
     'class' => 'w-validate',
     'enctype' => 'multipart/form-data',
-]); ?>
-
-<?php $this->widget('\Widgets\FormGenerator', [
+]);
+$this->widget('\Widgets\FormGenerator', [
     'model' => $model,
     'options' => [
         'uid',

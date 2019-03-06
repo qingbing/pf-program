@@ -3,6 +3,7 @@
 namespace Program\Controllers;
 
 // 引用类
+use FormGenerator;
 use Html;
 
 /**
@@ -10,12 +11,11 @@ use Html;
  * @var \Program\Models\User $user
  * @var \Program\Models\FormResetPassword $model
  */
-?>
-<?php echo Html::beginForm('', 'post', [
+echo Html::beginForm('', 'post', [
     'class' => 'w-validate',
     'enctype' => 'multipart/form-data',
-]); ?>
-<?php $this->widget('\Widgets\FormGenerator', [
+]);
+$this->widget('\Widgets\FormGenerator', [
     'model' => $user,
     'options' => [
         'uid',
@@ -29,24 +29,24 @@ use Html;
         'oldPassword' => [
             'code' => 'oldPassword',
             'allow_empty' => false,
-            'input_type' => \FormGenerator::INPUT_TYPE_PASSWORD,
-            'data_type' => \FormGenerator::DATA_TYPE_PASSWORD,
+            'input_type' => FormGenerator::INPUT_TYPE_PASSWORD,
+            'data_type' => FormGenerator::DATA_TYPE_PASSWORD,
             'tip_msg' => '请输入原始密码',
             'empty_msg' => '原始密码不能为空',
         ],
         'newPassword' => [
             'code' => 'newPassword',
             'allow_empty' => false,
-            'input_type' => \FormGenerator::INPUT_TYPE_PASSWORD,
-            'data_type' => \FormGenerator::DATA_TYPE_PASSWORD,
+            'input_type' => FormGenerator::INPUT_TYPE_PASSWORD,
+            'data_type' => FormGenerator::DATA_TYPE_PASSWORD,
             'tip_msg' => '请输入新密码',
             'empty_msg' => '新密码不能为空',
         ],
         'confirmPassword' => [
             'code' => 'confirmPassword',
             'allow_empty' => false,
-            'input_type' => \FormGenerator::INPUT_TYPE_PASSWORD,
-            'data_type' => \FormGenerator::DATA_TYPE_COMPARE,
+            'input_type' => FormGenerator::INPUT_TYPE_PASSWORD,
+            'data_type' => FormGenerator::DATA_TYPE_COMPARE,
             'tip_msg' => '确认新密码',
             'empty_msg' => '确认密码不能为空',
             'compare_field' => 'newPassword',

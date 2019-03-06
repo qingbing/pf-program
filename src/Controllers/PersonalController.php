@@ -16,7 +16,9 @@ use Program\Models\FormResetPassword;
 
 class PersonalController extends Controller
 {
+    /* @var boolean 是否开启操作日志，默认关闭 */
     protected $openLog = true;
+    /* @var string 日志类型 */
     protected $logType = Log::OPERATE_TYPE_PERSONAL;
 
     /**
@@ -37,7 +39,6 @@ class PersonalController extends Controller
 
     /**
      * 修改个人信息
-     * /**
      * @throws \Exception
      */
     public function actionChangeInfo()

@@ -73,7 +73,7 @@ class Pub
             return false;
         }
         $user = self::getUser()->getUserInfo();
-        /* @var \program\models\User $user */
+        /* @var \Program\Models\User $user */
         return $user->comparePassword($param);
     }
 }

@@ -31,4 +31,3 @@ $module = \Program\Components\Pub::getModule();
         <dd><a href="<?php echo $module->createUrl('log/index'); ?>">操作日志</a></dd>
     </dl>
 </div>
-            

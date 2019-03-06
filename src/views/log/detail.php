@@ -25,10 +25,6 @@ $logTypes = Log::type();
     <dd class="col-md-9 col-sm-9 col-lg-9 form-control-static"><?php echo $log['id']; ?></dd>
 </dl>
 <dl class="form-group row">
-    <dt class="col-md-3 col-sm-3 col-lg-3 control-label"><label>是否成功</label>:</dt>
-    <dd class="col-md-9 col-sm-9 col-lg-9 form-control-static"><?php echo Labels::YesNo($log['is_success']); ?></dd>
-</dl>
-<dl class="form-group row">
     <dt class="col-md-3 col-sm-3 col-lg-3 control-label"><label>日志类型</label>:</dt>
     <dd class="col-md-9 col-sm-9 col-lg-9 form-control-static"><?php echo Format::dataValue($log['type'], $logTypes); ?></dd>
 </dl>
@@ -39,6 +35,16 @@ $logTypes = Log::type();
 <dl class="form-group row">
     <dt class="col-md-3 col-sm-3 col-lg-3 control-label"><label>消息</label>:</dt>
     <dd class="col-md-9 col-sm-9 col-lg-9 form-control-static"><?php echo $log['message']; ?></dd>
+</dl>
+<dl class="form-group row">
+    <dt class="col-md-3 col-sm-3 col-lg-3 control-label"><label>数据内容</label>:</dt>
+    <dd class="col-md-9 col-sm-9 col-lg-9 form-control-static">
+        <pre><?php var_export(json_decode($log['data'], true)); ?></pre>
+    </dd>
+</dl>
+<dl class="form-group row">
+    <dt class="col-md-3 col-sm-3 col-lg-3 control-label"><label>是否成功</label>:</dt>
+    <dd class="col-md-9 col-sm-9 col-lg-9 form-control-static"><?php echo Labels::YesNo($log['is_success']); ?></dd>
 </dl>
 <dl class="form-group row">
     <dt class="col-md-3 col-sm-3 col-lg-3 control-label"><label>操作UID</label>:</dt>
@@ -59,12 +65,6 @@ $logTypes = Log::type();
 <dl class="form-group row">
     <dt class="col-md-3 col-sm-3 col-lg-3 control-label"><label>操作时间</label>:</dt>
     <dd class="col-md-9 col-sm-9 col-lg-9 form-control-static"><?php echo $log['db_time']; ?></dd>
-</dl>
-<dl class="form-group row">
-    <dt class="col-md-3 col-sm-3 col-lg-3 control-label"><label>数据内容</label>:</dt>
-    <dd class="col-md-9 col-sm-9 col-lg-9 form-control-static">
-        <pre><?php var_export(json_decode($log['data'], true)); ?></pre>
-    </dd>
 </dl>
 
 <dl class="form-group row">

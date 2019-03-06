@@ -65,16 +65,15 @@ class MateController extends Controller
         if (isset($fixer['keyword']) && '' !== $fixer['keyword']) {
             $criteria->addWhereLike('username', $fixer['keyword']);
         }
-
-        $res = (new User())->pagination($criteria, true);
-
+        // 数据分页查询
+        $pager = (new User())->pagination($criteria, true);
         // 设置页面标题
         $this->setPageTitle('程序员列表');
         // 渲染页面
         $this->layout = '/layouts/main';
         $this->render('index', [
             'fixer' => $fixer,
-            'pager' => $res,
+            'pager' => $pager,
         ]);
     }
 
@@ -297,7 +296,6 @@ class MateController extends Controller
     }
 
     /**
-     * 获取操作用户
      * 获取操作用户
      * @return User|null
      * @throws \Exception

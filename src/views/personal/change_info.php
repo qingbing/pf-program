@@ -1,6 +1,7 @@
 <?php
 // 申明命名空间
 namespace Program\Controllers;
+
 // 引用类
 use FormGenerator;
 use Html;
@@ -10,12 +11,11 @@ use Tools\Labels;
  * @var \Program\Components\Controller $this
  * @var \Program\Models\User $model
  */
-?>
-<?php echo Html::beginForm('', 'post', [
+echo Html::beginForm('', 'post', [
     'class' => 'w-validate',
     'enctype' => 'multipart/form-data',
-]); ?>
-<?php $this->widget('\Widgets\FormGenerator', [
+]);
+$this->widget('\Widgets\FormGenerator', [
     'model' => $model,
     'options' => [
         'uid' => ['type' => 'view'],
@@ -78,7 +78,6 @@ use Tools\Labels;
             'allow_empty' => true,
             'min' => '5',
             'max' => '120',
-            'allow_empty' => true,
         ],
         'zip_code' => [
             'code' => 'zip_code',

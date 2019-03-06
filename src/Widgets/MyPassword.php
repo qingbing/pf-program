@@ -43,4 +43,3 @@ class MyPassword extends OutputCache
 EDO;
     }
 }
-?>

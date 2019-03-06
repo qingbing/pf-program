@@ -17,7 +17,7 @@ $assetBaseUrl = \Program\Components\Pub::getAssetBaseUrl();
     <script src="<?php echo $assetBaseUrl; ?>/js/h.js"></script>
     <script src="<?php echo $assetBaseUrl; ?>/js/autoload.js"></script>
     <script src="<?php echo $assetBaseUrl; ?>/js/common.js"></script>
-    <title>Programmer Helper<?php if ($this->getClip('title')) {
+    <title>Programmer<?php if ($this->getClip('title')) {
             echo " - " . $this->getClip('title');
         } ?></title>
 </head>
