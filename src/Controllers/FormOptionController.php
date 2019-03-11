@@ -4,57 +4,54 @@ namespace Program\Controllers;
 // 引用类
 use DbSupports\Builder\Criteria;
 use Helper\HttpException;
+use function PHPSTORM_META\type;
 use Program\Components\Controller;
 use Program\Components\Log;
 use Program\Components\Pub;
-use Program\models\HeaderCategory;
-use Program\models\HeaderOption;
+use Program\Models\FormCategory;
+use Program\Models\FormOption;
 
 /**
  * Created by generate tool of phpcorner.
  * Link         :   http://www.phpcorner.net/
  * User         :   qingbing
- * Date         :   2019-03-04
+ * Date         :   2019-03-07
  * Version      :   1.0
  */
-class HeaderOptionController extends Controller
+class FormOptionController extends Controller
 {
     /* @var mixed 控制器的layout */
     public $layout = '/layouts/modal';
     /* @var boolean 是否开启操作日志，默认关闭 */
     protected $openLog = true;
     /* @var string 日志类型 */
-    protected $logType = Log::OPERATE_TYPE_TABLE_HEADER;
-
-    /* @var HeaderCategory */
+    protected $logType = Log::OPERATE_TYPE_FORM_SETTING;
+    /* @var FormCategory 表单类型模型 */
     protected $category;
-    /* @var boolean 是否超级程序员 */
+    /* @var boolean 是否超管 */
     protected $isSuper;
 
     /**
      * 在执行action之前调用，可以用该函数来终止向下运行
-     * @param \Abstracts\Action $action
-     * @return bool
      * @throws \Exception
      */
     protected function beforeAction($action)
     {
         $this->isSuper = Pub::getUser()->getIsSuper();
-        $key = $this->getActionParam('key');
-        $category = HeaderCategory::model()->findByPk($key);
-        /* @var HeaderCategory $category */
+        $category = FormCategory::model()->findByPk($this->getActionParam('key'));
+        /* @var FormCategory $category */
         if (null === $category) {
-            throw new HttpException('表头不存在', 404);
+            $this->throwHttpException(404, '表头不存在');
         }
         if (!$category->is_open && !$this->isSuper) {
-            throw new HttpException('对不起，您无权操作该内容', 403);
+            $this->throwHttpException(403, '对不起，您无权操作该内容');
         }
         $this->category = $category;
         return true;
     }
 
     /**
-     * 默认action:表头选项列表
+     * 默认action : 表单配置选项列表
      * @throws \Exception
      */
     public function actionIndex()
@@ -62,7 +59,7 @@ class HeaderOptionController extends Controller
         // 获取数据
         $models = $this->findAll();
         // 设置页面标题
-        $this->setPageTitle("表头选项列表({$this->category->key}:{$this->category->name})");
+        $this->setPageTitle("表单子项列表({$this->category->key}:{$this->category->name})");
         // 渲染页面
         $this->layout = '/layouts/main';
         $this->render('index', [
@@ -72,28 +69,28 @@ class HeaderOptionController extends Controller
     }
 
     /**
-     * 添加表头选项
+     * 添加表单配置选项
      * @throws \Exception
      */
     public function actionAdd()
     {
         // 数据获取
-        $model = new HeaderOption();
+        $model = new FormOption();
         // 表单提交处理
-        if (isset($_POST['HeaderOption'])) {
-            $this->logMessage = '添加表头选项';
-            $model->setAttributes($_POST['HeaderOption']);
+        if (isset($_POST['FormOption'])) {
+            $this->logMessage = '添加表单配置选项';
+            $model->setAttributes($_POST['FormOption']);
             $model->key = $this->category->key;
             if ($model->save()) {
                 $this->logKeyword = "{$model->key}:{$model->code}";
                 $this->logData = $model->getAttributes();
-                $this->success('添加表头选项成功');
+                $this->success('添加表单配置选项成功');
             } else {
                 $this->failure('', $model->getErrors());
             }
         }
         // 设置页面标题
-        $this->setPageTitle("添加表头选项列表({$this->category->key}:{$this->category->name})");
+        $this->setPageTitle("添加表单子项列表({$this->category->key}:{$this->category->name})");
         // 渲染页面
         $this->render('add', [
             'category' => $this->category,
@@ -102,7 +99,36 @@ class HeaderOptionController extends Controller
     }
 
     /**
-     * 编辑表头选项
+     * 编辑表单选项
+     * @throws \Exception
+     */
+    public function actionEditDetail()
+    {
+        // 数据获取
+        $model = $this->getModel();
+        // 表单提交处理
+        if (isset($_POST['FormOption'])) {
+            $this->logMessage = '编辑表单选项详情';
+            $model->setAttributes($_POST['FormOption']);
+            $this->logKeyword = "{$model->key}:{$model->code}";
+            if ($model->save()) {
+                $this->logData = $model->getAttributes();
+                $this->success('编辑表单选项详情成功');
+            } else {
+                $this->failure('', $model->getErrors());
+            }
+        }
+        // 设置页面标题
+        $this->setPageTitle('编辑表单选项详情信息');
+        // 渲染页面
+        $this->render('edit_detail', [
+            'category' => $this->category,
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * 编辑表单配置选项，表格编辑
      * @throws \Exception
      */
     public function actionEdit()
@@ -113,18 +139,18 @@ class HeaderOptionController extends Controller
         unset($fixer['key']);
         unset($fixer['id']);
         $model->setAttributes($fixer);
-        $this->logMessage = '修改表头选项';
+        $this->logMessage = '修改表单配置选项';
         $this->logKeyword = "{$model->key}:{$model->code}";
         if ($model->save()) {
             $this->logData = $this->getActionParams();
-            $this->success('编辑表头选项成功');
+            $this->success('编辑表单配置选项成功');
         } else {
             $this->failure('', $model->getErrors());
         }
     }
 
     /**
-     * 表头选项顺序调整
+     * 表单配置选项顺序调整
      * @throws \Exception
      */
     public function actionUpDown()
@@ -160,18 +186,17 @@ class HeaderOptionController extends Controller
         $current_sort_order = $current->sort_order;
         $current->sort_order = $switch->sort_order;
         $switch->sort_order = $current_sort_order;
-
         // 日志记录
-        $this->logMessage = '表头选项顺序调整';
+        $this->logMessage = '表单配置选项顺序调整';
         $this->logKeyword = "{$current->key}:{$current->code}";
         $this->logData = [
             'current' => $current->getAttributes(),
             'switch' => $switch->getAttributes(),
         ];
         if ($current->save() && $switch->save()) {
-            $this->success('表头选项顺序调整成功');
+            $this->success('表单配置选项顺序调整成功');
         } else {
-            $this->failure('表头选项顺序调整失败');
+            $this->failure('表单配置选项顺序调整失败');
         }
     }
 
@@ -184,7 +209,7 @@ class HeaderOptionController extends Controller
         // 获取数据
         $models = $this->findAll();
         $i = 0;
-        $this->logMessage = '表头选项顺序刷新';
+        $this->logMessage = '表单配置选项顺序刷新';
         $this->logKeyword = "{$this->category->key}";
         $transaction = \PF::app()->getDb()->beginTransaction();
         foreach ($models as $model) {
@@ -195,39 +220,38 @@ class HeaderOptionController extends Controller
             }
         }
         $transaction->commit();
-        $this->success('表头选项顺序刷新成功');
+        $this->success('表单配置选项顺序刷新成功');
     }
 
     /**
-     * 删除表头选项
+     * 删除表单配置选项
      * @throws \Exception
      */
     public function actionDelete()
     {
         // 数据获取
         $model = $this->getModel();
-        $this->logMessage = '删除表头选项';
+        $this->logMessage = '删除表单配置选项';
         $this->logKeyword = "{$model->key}:{$model->code}";
         if ($model->delete()) {
             $this->logData = $model->getAttributes();
-            $this->success('删除表头选项成功');
+            $this->success('删除表单配置选项成功');
         } else {
             $this->failure('', $model->getErrors());
         }
     }
 
     /**
-     * 获取操作表头选项
-     * @return \Abstracts\DbModel|HeaderOption|null
+     * 获取操作表单配置选项
+     * @return \Abstracts\DbModel|FormOption|null
      * @throws \Exception
      */
     protected function getModel()
     {
-        $id = $this->getActionParam('id');
-        $model = HeaderOption::model()->findByPk($id);
-        /* @var HeaderOption $model */
+        $model = FormOption::model()->findByPk($this->getActionParam('id'));
+        /* @var FormOption $model */
         if (null === $model) {
-            throw new HttpException('表头选项不存在', 404);
+            throw new HttpException('表单配置选项不存在', 404);
         }
         if ($model->key != $this->category->key) {
             throw new HttpException('对不起，您操作的内容参数不匹配', 403);
@@ -237,7 +261,7 @@ class HeaderOptionController extends Controller
 
     /**
      * 获取表头下所有的选项
-     * @return \Abstracts\DbModel[]|HeaderOption[]|null
+     * @return \Abstracts\DbModel[]|FormOption[]|null
      * @throws \Exception
      */
     protected function findAll()
@@ -247,11 +271,11 @@ class HeaderOptionController extends Controller
         $criteria->addWhere('`key`=:key')
             ->addParam(':key', $this->category->key)
             ->setOrder('`sort_order` ASC');
-        return HeaderOption::model()->findAll($criteria);
+        return FormOption::model()->findAll($criteria);
     }
 
     /**
-     * 验证表头选项标识符的唯一性
+     * 验证表单配置选项标识符的唯一性
      * @throws \Exception
      */
     public function actionUniqueCode()
@@ -267,7 +291,7 @@ class HeaderOptionController extends Controller
             $criteria->addWhere('`id`!=:id')
                 ->addParam(':id', $fixer['id']);
         }
-        $count = HeaderOption::model()->count($criteria);
+        $count = FormOption::model()->count($criteria);
         // 返回验证结果
         $this->openLog = false;
         if ($count > 0) {
@@ -294,7 +318,7 @@ class HeaderOptionController extends Controller
             $criteria->addWhere('`id`!=:id')
                 ->addParam(':id', $fixer['id']);
         }
-        $count = HeaderOption::model()->count($criteria);
+        $count = FormOption::model()->count($criteria);
         // 返回验证结果
         $this->openLog = false;
         if ($count > 0) {
