@@ -15,8 +15,8 @@ use Html;
  * Version      :   1.0
  *
  * @var \Program\Components\Controller $this
- * @var \Program\models\FormCategory $category
- * @var \Program\models\FormOption[] $models
+ * @var \Program\Models\FormCategory $category
+ * @var \Program\Models\FormOption[] $models
  */
 ?>
 <div class="margin-bottom">

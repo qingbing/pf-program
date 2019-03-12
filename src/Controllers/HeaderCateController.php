@@ -180,10 +180,10 @@ class HeaderCateController extends Controller
         $model = HeaderCategory::model()->findByPk($key);
         /* @var HeaderCategory $model */
         if (null === $model) {
-            throw new HttpException('表头不存在', 404);
+            $this->throwHttpException(404, '表头不存在');
         }
         if (!$model->is_open && !$this->isSuper) {
-            throw new HttpException('对不起，您无权操作该内容', 403);
+            $this->throwHttpException(403, '对不起，您无权操作该内容');
         }
         return $model;
     }

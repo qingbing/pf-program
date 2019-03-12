@@ -251,10 +251,10 @@ class FormOptionController extends Controller
         $model = FormOption::model()->findByPk($this->getActionParam('id'));
         /* @var FormOption $model */
         if (null === $model) {
-            throw new HttpException('表单配置选项不存在', 404);
+            $this->throwHttpException(404, '表单配置选项不存在');
         }
         if ($model->key != $this->category->key) {
-            throw new HttpException('对不起，您操作的内容参数不匹配', 403);
+            $this->throwHttpException(400, '对不起，您操作的内容参数不匹配');
         }
         return $model;
     }

@@ -14,8 +14,8 @@ use Html;
  * Version      :   1.0
  *
  * @var \Program\Components\Controller $this
- * @var \Program\models\HeaderCategory $category
- * @var \Program\models\HeaderOption[] $models
+ * @var \Program\Models\HeaderCategory $category
+ * @var \Program\Models\HeaderOption[] $models
  */
 ?>
 <div class="margin-bottom">

@@ -15,8 +15,8 @@ use Tools\Labels;
  * Version      :   1.0
  *
  * @var \Program\Components\Controller $this
- * @var \Program\models\HeaderCategory $category
- * @var \Program\models\HeaderOption $model
+ * @var \Program\Models\HeaderCategory $category
+ * @var \Program\Models\HeaderOption $model
  */
 
 echo Html::beginForm('', 'post', [

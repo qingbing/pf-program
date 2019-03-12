@@ -218,7 +218,7 @@ class AdminController extends Controller
         // 数据获取
         $model = $this->getModel();
         if ($model->is_enable == 0) {
-            throw new HttpException('用户已经为禁用状态');
+            $this->throwHttpException(400, '用户已经为禁用状态');
         }
         // 表单提交处理
         if (isset($_POST['myPassword'])) {
@@ -254,7 +254,7 @@ class AdminController extends Controller
         // 数据获取
         $model = $this->getModel();
         if ($model->is_enable == 1) {
-            throw new HttpException('用户已经为启用状态');
+            $this->throwHttpException(400, '用户已经为启用状态');
         }
         // 表单提交处理
         if (isset($_POST['myPassword'])) {
@@ -290,7 +290,7 @@ class AdminController extends Controller
         // 数据获取
         $model = $this->getModel();
         if ($model->is_super == 0) {
-            throw new HttpException('用户不是超级管理员');
+            $this->throwHttpException(403, '用户不是超级管理员');
         }
         // 表单提交处理
         if (isset($_POST['myPassword'])) {
@@ -326,7 +326,7 @@ class AdminController extends Controller
         // 数据获取
         $model = $this->getModel();
         if ($model->is_super == 1) {
-            throw new HttpException('用户是超级管理员');
+            $this->throwHttpException(403, '用户是超级管理员');
         }
         // 表单提交处理
         if (isset($_POST['myPassword'])) {

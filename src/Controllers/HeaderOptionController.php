@@ -44,10 +44,10 @@ class HeaderOptionController extends Controller
         $category = HeaderCategory::model()->findByPk($key);
         /* @var HeaderCategory $category */
         if (null === $category) {
-            throw new HttpException('表头不存在', 404);
+            $this->throwHttpException(404, '表头不存在');
         }
         if (!$category->is_open && !$this->isSuper) {
-            throw new HttpException('对不起，您无权操作该内容', 403);
+            $this->throwHttpException(403, '对不起，您无权操作该内容');
         }
         $this->category = $category;
         return true;
@@ -227,10 +227,10 @@ class HeaderOptionController extends Controller
         $model = HeaderOption::model()->findByPk($id);
         /* @var HeaderOption $model */
         if (null === $model) {
-            throw new HttpException('表头选项不存在', 404);
+            $this->throwHttpException(404, '表头选项不存在');
         }
         if ($model->key != $this->category->key) {
-            throw new HttpException('对不起，您操作的内容参数不匹配', 403);
+            $this->throwHttpException(400, '对不起，您操作的内容参数不匹配');
         }
         return $model;
     }

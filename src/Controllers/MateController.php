@@ -232,7 +232,7 @@ class MateController extends Controller
         // 数据获取
         $model = $this->getModel();
         if ($model->is_enable == 0) {
-            throw new HttpException('用户已经为禁用状态');
+            $this->throwHttpException(403, '用户已经为禁用状态');
         }
         // 表单提交处理
         if (isset($_POST['myPassword'])) {
@@ -268,7 +268,7 @@ class MateController extends Controller
         // 数据获取
         $model = $this->getModel();
         if ($model->is_enable == 1) {
-            throw new HttpException('用户已经为启用状态');
+            $this->throwHttpException(403, '用户已经为启用状态');
         }
         // 表单提交处理
         if (isset($_POST['myPassword'])) {
