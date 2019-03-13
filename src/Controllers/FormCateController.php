@@ -48,6 +48,7 @@ class FormCateController extends Controller
         // 获取数据
         $fixer = $this->getActionParams();
         $criteria = new Criteria();
+        $criteria->setOrder('`sort_order` ASC');
 
         if (!$this->isSuper) {
             $criteria->addWhere('`is_open`=:is_open')

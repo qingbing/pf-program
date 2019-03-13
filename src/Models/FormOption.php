@@ -296,6 +296,12 @@ class FormOption extends DbModel
                 }
                 break;
         }
+        if('' === $this->min){
+            $this->min = null;
+        }
+        if('' === $this->max){
+            $this->max = null;
+        }
         return true;
     }
 
