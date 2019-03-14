@@ -139,6 +139,14 @@ class ReplaceSetting extends DbModel
     }
 
     /**
+     * 在数据删除之后执行
+     */
+    protected function afterDelete()
+    {
+        \KindEditor::removeEditor('replace', $this->x_flag);
+    }
+
+    /**
      * 在查询数据之后执行
      */
     protected function afterFind()
