@@ -31,12 +31,12 @@ class Log extends OperateLog
     const OPERATE_TYPE_TABLE_HEADER = 'table-header';
     const OPERATE_TYPE_MATE = 'mate';
     const OPERATE_TYPE_ADMIN = 'admin';
-    // todo doing
     const OPERATE_TYPE_FORM_SETTING = 'form-setting';
+    // todo doing
+    const OPERATE_TYPE_REPLACE_SETTING = 'replace-setting';
 
 
     // todo
-    const OPERATE_TYPE_REPLACE_SETTING = 'replace-setting';
     const OPERATE_TYPE_NAV = 'nav';
     const OPERATE_TYPE_ACCESS = 'access';
     const OPERATE_TYPE_BLOCK = 'block';
