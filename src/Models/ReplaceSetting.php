@@ -127,7 +127,7 @@ class ReplaceSetting extends DbModel
                     $replace["{{{$matches[1][$k]}::{$matches[2][$k]}}}"] = $_key;
                     $r[$matches[1][$k]] = $matches[2][$k];
                 }
-                $this->replace_fields = Coding::json_encode($r);
+                $this->replace_fields = Coding::json_encode($r, true);
             } else {
                 $this->replace_fields = Coding::json_encode([]);
             }
@@ -199,10 +199,11 @@ class ReplaceSetting extends DbModel
     {
         return [
             self::TYPE_SYSTEM => [
-                '{{name}}' => '{{name::网站名称}}',
-                '{{version}}' => '{{version::站点版本}}',
-                '{{copyright}}' => '{{copyright::网站版权}}',
-                '{{back_no}}' => '{{back_no::备案号}}',
+                '{{company_name}}' => '{{company_name::公司名称}}',
+                '{{site_name}}' => '{{site_name::网站名称}}',
+                '{{site_version}}' => '{{site_version::站点版本}}',
+                '{{site_copyright}}' => '{{site_copyright::网站版权}}',
+                '{{site_back_no}}' => '{{site_back_no::备案号}}',
             ],
             self::TYPE_LOGIN => [
                 '{{login_username}}' => '{{login_username::登录用户名}}',

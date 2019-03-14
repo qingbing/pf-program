@@ -65,7 +65,7 @@ $this->widget('\Widgets\TableView', [
         $operate .= ' <a href="' . $this->createUrl('delete', ['key' => $data->key]) . '" class="text-danger CONFIRM_AJAX" data-reload="true" data-message="确认删除该表头么？"><i class="fa fa-trash">删除</i></a>';
         $process = [
             'is_enable' => Labels::enable($data->is_enable),
-            'replace_type' => implode(',', $replace_label),
+            'replace_type' => implode('<br>', $replace_label),
             'operate' => $operate,
         ];
         return $process;
