@@ -100,6 +100,9 @@ class BlockOptionController extends Controller
         $model = $this->getModel();
         // 表单提交处理
         if (isset($_POST['BlockOption'])) {
+            if (isset($_POST['BlockOption']['src'])) {
+                unset($_POST['BlockOption']['src']);
+            }
             $this->logMessage = '编辑表单选项详情';
             $model->setAttributes($_POST['BlockOption']);
             $this->logKeyword = "{$model->key}:{$model->id}";

@@ -4,6 +4,7 @@ namespace Program\Models;
 // 引用类
 use Abstracts\DbModel;
 use Helper\Exception;
+use Helper\Format;
 use UploadFile;
 use UploadManager;
 
@@ -97,7 +98,7 @@ class BlockOption extends DbModel
     /**
      * 在数据保存之前执行
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     protected function beforeSave()
     {
@@ -120,6 +121,11 @@ class BlockOption extends DbModel
             if (is_file($old_file)) {
                 @unlink($old_file);
             }
+        }
+        $datetime = Format::datetime();
+        $this->setAttribute('update_time', $datetime);
+        if ($this->getIsNewRecord()) {
+            $this->setAttribute('create_time', $datetime);
         }
         return true;
     }

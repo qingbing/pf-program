@@ -52,7 +52,7 @@ $src = [
     'input_type' => FormGenerator::INPUT_TYPE_FILE,
     'file_extensions' => ['jpg', 'jpeg', 'png', 'gif'],
     'tip_msg' => '请上传图片',
-    'allow_empty' => false,
+    'allow_empty' => true,
 ];
 switch ($category->type) {
     case BlockCategory::TYPE_CONTENT:
