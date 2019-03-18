@@ -146,16 +146,4 @@ class BlockOption extends DbModel
         }
         return UploadManager::getUrl('block') . $this->src;
     }
-
-    /**
-     * 后台图像展示
-     * @return string|null
-     */
-    public function showImg()
-    {
-        if ('' != $this->src) {
-            return '<img src="' . UploadManager::getUrl('block') . $this->src . '" />';
-        }
-        return null;
-    }
 }

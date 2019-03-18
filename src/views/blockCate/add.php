@@ -63,6 +63,12 @@ $options = [
         'min' => '0',
         'allow_empty' => false,
     ],
+    'is_open' => [
+        'code' => 'is_open',
+        'input_type' => FormGenerator::INPUT_TYPE_SELECT,
+        'input_data' => Labels::YesNo(),
+        'allow_empty' => false,
+    ],
     'is_enable' => [
         'code' => 'is_enable',
         'input_type' => FormGenerator::INPUT_TYPE_SELECT,

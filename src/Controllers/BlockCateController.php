@@ -34,6 +34,10 @@ class BlockCateController extends Controller
         $criteria = new Criteria();
         $criteria->setOrder('`sort_order` ASC');
 
+        if (isset($fixer['is_open']) && '' !== $fixer['is_open']) {
+            $criteria->addWhere('`is_open`=:is_open')
+                ->addParam(':is_open', $fixer['is_open']);
+        }
         if (isset($fixer['is_enable']) && '' !== $fixer['is_enable']) {
             $criteria->addWhere('`is_enable`=:is_enable')
                 ->addParam(':is_enable', $fixer['is_enable']);

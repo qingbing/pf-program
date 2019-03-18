@@ -22,6 +22,14 @@ echo Html::beginForm(['program/blockCate/index'], 'get', [
     'class' => 'form-inline margin-bottom',
 ]); ?>
     <dl class="form-group inline">
+        <dt class="control-label">是否开放:</dt>
+        <dd>
+            <?php echo Html::dropDownList('is_open', (isset($fixer['is_open']) ? $fixer['is_open'] : ''), Labels::YesNo(null, true), [
+                'class' => 'form-control',
+            ]); ?>
+        </dd>
+    </dl>
+    <dl class="form-group inline">
         <dt class="control-label">启用状态:</dt>
         <dd>
             <?php echo Html::dropDownList('is_enable', (isset($fixer['is_enable']) ? $fixer['is_enable'] : ''), Labels::enable(null, true), [
@@ -61,6 +69,7 @@ $this->widget('\Widgets\TableView', [
             $operate .= ' <a href="' . $this->createUrl('content', ['key' => $data->key]) . '" class="text-warning w-modal" target="_blank"><i class="fa fa-edit">设置内容</i></a>';
         }
         $process = [
+            'is_open' => Labels::YesNo($data->is_open),
             'is_enable' => Labels::enable($data->is_enable),
             'type' => BlockCategory::types($data->type),
             'subOptionCount' => $data->subOptionCount,

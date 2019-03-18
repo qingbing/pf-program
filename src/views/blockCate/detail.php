@@ -22,6 +22,10 @@ $options = [
     'name',
     'description',
     'sort_order',
+    'is_open' => [
+        'callable' => ['\Tools\Labels', 'YesNo'],
+        'type' => 'view',
+    ],
     'is_enable' => [
         'callable' => ['\Tools\Labels', 'enable'],
         'type' => 'view',

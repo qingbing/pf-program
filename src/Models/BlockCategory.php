@@ -20,6 +20,7 @@ use Helper\Format;
  * @property string name
  * @property string description
  * @property integer sort_order
+ * @property integer is_open
  * @property integer is_enable
  * @property string x_flag
  * @property string content
@@ -54,8 +55,8 @@ class BlockCategory extends DbModel
     public function rules()
     {
         return [
-            ['type, sort_order, is_enable', 'required'],
-            ['sort_order, is_enable', 'numerical', 'integerOnly' => true],
+            ['type, sort_order, is_open, is_enable', 'required'],
+            ['sort_order, is_open, is_enable', 'numerical', 'integerOnly' => true],
             ['key, name, description', 'string', 'maxLength' => 255],
             ['type', 'string', 'maxLength' => 20],
             ['x_flag', 'string', 'maxLength' => 50],
@@ -87,6 +88,7 @@ class BlockCategory extends DbModel
             'name' => '名称',
             'description' => '描述',
             'sort_order' => '排序',
+            'is_open' => '是否开放',
             'is_enable' => '启用状态',
             'x_flag' => 'type为content的在线编辑器标识符',
             'content' => '内容',
