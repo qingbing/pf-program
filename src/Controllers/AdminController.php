@@ -26,16 +26,6 @@ class AdminController extends Controller
     protected $logType = Log::OPERATE_TYPE_ADMIN;
 
     /**
-     * 在执行action之前调用，可以用该函数来终止向下运行
-     * @param \Abstracts\Action $action
-     * @return bool
-     */
-    protected function beforeAction($action)
-    {
-        return true;
-    }
-
-    /**
      * 默认action：管理员列表
      * @throws \Exception
      */

@@ -5,23 +5,23 @@ namespace Program\Controllers;
 use DbSupports\Builder\Criteria;
 use Program\Components\Controller;
 use Program\Components\Log;
-use Program\Models\ReplaceSetting;
+use Program\Models\BlockCategory;
 
 /**
  * Created by generate tool of phpcorner.
  * Link         :   http://www.phpcorner.net/
  * User         :   qingbing
- * Date         :   2019-03-13
+ * Date         :   2019-03-15
  * Version      :   1.0
  */
-class ReplaceController extends Controller
+class BlockCateController extends Controller
 {
     /* @var mixed 控制器的layout */
     public $layout = '/layouts/modal';
     /* @var boolean 是否开启操作日志，默认关闭 */
     protected $openLog = true;
     /* @var string 日志类型 */
-    protected $logType = Log::OPERATE_TYPE_REPLACE_SETTING;
+    protected $logType = Log::OPERATE_TYPE_BLOCK;
 
     /**
      * 默认action
@@ -33,6 +33,7 @@ class ReplaceController extends Controller
         $fixer = $this->getActionParams();
         $criteria = new Criteria();
         $criteria->setOrder('`sort_order` ASC');
+
         if (isset($fixer['is_enable']) && '' !== $fixer['is_enable']) {
             $criteria->addWhere('`is_enable`=:is_enable')
                 ->addParam(':is_enable', $fixer['is_enable']);
@@ -42,9 +43,9 @@ class ReplaceController extends Controller
         }
 
         // 模型分页查询
-        $pager = (new ReplaceSetting())->pagination($criteria, true);
+        $pager = (new BlockCategory())->pagination($criteria, true);
         // 设置页面标题
-        $this->setPageTitle('替换模板管理');
+        $this->setPageTitle('区块类型');
         // 渲染页面
         $this->layout = '/layouts/main';
         $this->render('index', [
@@ -54,30 +55,27 @@ class ReplaceController extends Controller
     }
 
     /**
-     * 添加替换模板
+     * 添加区块类型
      * @throws \Exception
      */
     public function actionAdd()
     {
         // 数据获取
-        $model = new ReplaceSetting();
+        $model = new BlockCategory();
         // 表单提交处理
-        if (isset($_POST['ReplaceSetting'])) {
-            if (!isset($_POST['ReplaceSetting']['replace_type'])) {
-                $_POST['ReplaceSetting']['replace_type'] = [];
-            }
-            $model->setAttributes($_POST['ReplaceSetting']);
-            $this->logMessage = '添加替换模板';
+        if (isset($_POST['BlockCategory'])) {
+            $this->logMessage = '添加区块类型';
+            $model->setAttributes($_POST['BlockCategory']);
             if ($model->save()) {
-                $this->logKeyword = "{$model->key}";
+                $this->logKeyword = $model->key;
                 $this->logData = $model->getAttributes();
-                $this->success('添加替换模板成功');
+                $this->success('添加区块类型成功');
             } else {
                 $this->failure('', $model->getErrors());
             }
         }
         // 设置页面标题
-        $this->setPageTitle('添加替换模板');
+        $this->setPageTitle('添加区块类型');
         // 渲染页面
         $this->render('add', [
             'model' => $model,
@@ -85,7 +83,7 @@ class ReplaceController extends Controller
     }
 
     /**
-     * 编辑替换模板
+     * 编辑区块类型
      * @throws \Exception
      */
     public function actionEdit()
@@ -93,64 +91,103 @@ class ReplaceController extends Controller
         // 数据获取
         $model = $this->getModel();
         // 表单提交处理
-        if (isset($_POST['ReplaceSetting'])) {
-            if (!isset($_POST['ReplaceSetting']['replace_type'])) {
-                $_POST['ReplaceSetting']['replace_type'] = [];
-            }
-            $model->setAttributes($_POST['ReplaceSetting']);
-            $this->logMessage = '编辑替换模板';
-            $this->logKeyword = "{$model->key}";
+        if (isset($_POST['BlockCategory'])) {
+            $this->logMessage = '编辑区块类型';
+            $model->setAttributes($_POST['BlockCategory']);
+            $this->logKeyword = $model->key;
             if ($model->save()) {
                 $this->logData = $model->getAttributes();
-                $this->success('编辑替换模板成功');
+                $this->success('编辑区块类型成功');
             } else {
                 $this->failure('', $model->getErrors());
             }
         }
         // 设置页面标题
-        $this->setPageTitle('编辑替换模板');
+        $this->setPageTitle('编辑区块类型信息');
         // 渲染页面
         $this->render('edit', [
-            'fixer' => $this->getActionParams(),
             'model' => $model,
         ]);
     }
 
     /**
-     * 删除替换模板
+     * 删除区块类型
      * @throws \Exception
      */
     public function actionDelete()
     {
         // 数据获取
         $model = $this->getModel();
-        $this->logMessage = '删除替换模板';
-        $this->logKeyword = "{$model->key}";
+        $this->logMessage = '删除区块类型';
+        $this->logKeyword = $model->key;
         if ($model->delete()) {
             $this->logData = $model->getAttributes();
-            $this->success('删除替换模板成功');
+            $this->success('删除区块类型成功');
         } else {
             $this->failure('', $model->getErrors());
         }
     }
 
     /**
-     * 获取操作替换模板
-     * @return \Abstracts\DbModel|ReplaceSetting|null
+     * 修改内容区块的内容信息
+     * @throws \Exception
+     */
+    public function actionContent()
+    {
+        // 数据获取
+        $model = $this->getModel();
+        // 表单提交处理
+        if (isset($_POST['BlockCategory'])) {
+            $this->logMessage = '编辑区块内容';
+            $model->setAttributes($_POST['BlockCategory']);
+            $this->logKeyword = $model->key;
+            if ($model->save()) {
+                $this->logData = $model->getAttributes();
+                $this->success('编辑区块内容成功');
+            } else {
+                $this->failure('', $model->getErrors());
+            }
+        }
+        // 设置页面标题
+        $this->setPageTitle('编辑区块内容');
+        // 渲染页面
+        $this->render('content', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * 查看区块类型信息
+     * @throws \Exception
+     */
+    public function actionDetail()
+    {
+        // 数据获取
+        $model = $this->getModel();
+        // 设置页面标题
+        $this->setPageTitle('查看区块类型信息');
+        // 渲染页面
+        $this->render('detail', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * 获取操作区块类型
+     * @return \Abstracts\DbModel|BlockCategory|null
      * @throws \Exception
      */
     protected function getModel()
     {
-        $model = ReplaceSetting::model()->findByPk($this->getActionParam('key'));
-        /* @var ReplaceSetting $model */
+        $model = BlockCategory::model()->findByPk($this->getActionParam('key'));
         if (null === $model) {
-            $this->throwHttpException(404, '替换模板不存在');
+            $this->throwHttpException(404, '区块不存在');
         }
         return $model;
     }
 
     /**
-     * 验证替换模板标识符的唯一性
+     * 验证区块标识符的唯一性
      * @throws \Exception
      */
     public function actionUniqueKey()
@@ -161,18 +198,18 @@ class ReplaceController extends Controller
         $criteria = new Criteria();
         $criteria->addWhere('`key`=:key')
             ->addParam(':key', $fixer['param']);
-        $count = ReplaceSetting::model()->count($criteria);
+        $count = BlockCategory::model()->count($criteria);
         // 返回验证结果
         $this->openLog = false;
         if ($count > 0) {
-            $this->failure("标志\"{$fixer['param']}\"已经存在");
+            $this->failure("区块标识符\"{$fixer['param']}\"已经存在");
         } else {
-            $this->success("标志\"{$fixer['param']}\"可用");
+            $this->success("区块标识符\"{$fixer['param']}\"可用");
         }
     }
 
     /**
-     * 验证替换模板名称的唯一性
+     * 验证区块别名的唯一性
      * @throws \Exception
      */
     public function actionUniqueName()
@@ -187,13 +224,13 @@ class ReplaceController extends Controller
             $criteria->addWhere('`key`!=:key')
                 ->addParam(':key', $fixer['key']);
         }
-        $count = ReplaceSetting::model()->count($criteria);
+        $count = BlockCategory::model()->count($criteria);
         // 返回验证结果
         $this->openLog = false;
         if ($count > 0) {
-            $this->failure("名称\"{$fixer['param']}\"已经存在");
+            $this->failure("区块名称\"{$fixer['param']}\"已经存在");
         } else {
-            $this->success("名称\"{$fixer['param']}\"可用");
+            $this->success("区块名称\"{$fixer['param']}\"可用");
         }
     }
 }

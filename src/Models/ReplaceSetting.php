@@ -95,7 +95,6 @@ class ReplaceSetting extends DbModel
     /**
      * 在数据保存之前执行
      * @return bool
-     * todo
      */
     protected function beforeSave()
     {
