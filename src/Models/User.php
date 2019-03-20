@@ -6,8 +6,8 @@ use Abstracts\DbModel;
 use DbSupports\Expression;
 use Helper\Exception;
 use Program\Components\Pub;
-use UploadFile;
-use UploadManager;
+use Tools\UploadFile;
+use Tools\UploadManager;
 
 /**
  * Created by generate tool of phpcorner.

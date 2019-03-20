@@ -3,7 +3,7 @@
 namespace Program\models;
 // 引用类
 use Abstracts\DbModel;
-use UploadManager;
+use Tools\UploadManager;
 
 /**
  * Created by generate tool of phpcorner.

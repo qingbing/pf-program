@@ -3,7 +3,6 @@
 namespace Program\Controllers;
 // 引用类
 use DbSupports\Builder\Criteria;
-use Helper\HttpException;
 use Program\Components\Controller;
 use Program\Components\Log;
 use Program\Components\Pub;
