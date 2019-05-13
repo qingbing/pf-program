@@ -141,6 +141,9 @@ class BlockCateController extends Controller
     {
         // 数据获取
         $model = $this->getModel();
+        if (BlockCategory::TYPE_CONTENT !== $model->type) {
+            $this->throwHttpException(404, '错误的区块操作');
+        }
         // 表单提交处理
         if (isset($_POST['BlockCategory'])) {
             $this->logMessage = '编辑区块内容';
@@ -162,13 +165,16 @@ class BlockCateController extends Controller
     }
 
     /**
-     * 修改内容区块的内容信息
+     * 修改图片区块的图片信息
      * @throws \Exception
      */
     public function actionImage()
     {
         // 数据获取
         $model = $this->getModel();
+        if (BlockCategory::TYPE_IMAGE_LINK !== $model->type) {
+            $this->throwHttpException(404, '错误的区块操作');
+        }
         // 表单提交处理
         if (isset($_POST['BlockCategory'])) {
             $this->logMessage = '修改区块图片信息';
