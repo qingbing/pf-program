@@ -6,7 +6,6 @@ namespace Program\Controllers;
 use FormGenerator;
 use Html;
 use Program\Components\Pub;
-use Tools\Labels;
 
 /**
  * Created by generate tool of phpcorner.
