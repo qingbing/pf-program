@@ -5,6 +5,7 @@ namespace Program\Controllers;
 // 引用类
 use Helper\Coding;
 use Html;
+use Program\Models\BlockCategory;
 
 /**
  * Created by generate tool of phpcorner.
@@ -35,7 +36,13 @@ use Html;
         <th class="text-center" width="80px">链接地址</th>
         <th class="text-center" width="80px">图片</th>
         <th class="text-center" width="80px">显示排序</th>
-        <th class="text-center" width="50px">新开窗口</th>
+        <?php
+        if (in_array($category->type, [BlockCategory::TYPE_CLOUD_WORDS_LINKS, BlockCategory::TYPE_LIST_LINKS, BlockCategory::TYPE_IMAGES_LINKS,])) {
+            ?>
+            <th class="text-center" width="50px">新开窗口</th>
+            <?php
+        }
+        ?>
         <th class="text-center" width="50px">管理开放</th>
         <th class="text-center" width="50px">启用状态</th>
         <th class="text-center" width="320px">操作</th>
@@ -54,9 +61,17 @@ use Html;
                     echo '<img src="' . $model->getImageSrc() . '" width="180px" />';
                 } ?></td>
             <td class="text-center" data-name="sort_order"><?php echo $model->sort_order; ?></td>
-            <td class="text-center" data-name="is_blank">
-                <?php echo Html::checkBox('is_blank', !!$model->is_blank); ?>
-            </td>
+
+            <?php
+            if (in_array($category->type, [BlockCategory::TYPE_CLOUD_WORDS_LINKS, BlockCategory::TYPE_LIST_LINKS, BlockCategory::TYPE_IMAGES_LINKS,])) {
+                ?>
+                <td class="text-center" data-name="is_blank">
+                    <?php echo Html::checkBox('is_blank', !!$model->is_blank); ?>
+                </td>
+                <?php
+            }
+            ?>
+
             <td class="text-center" data-name="is_open">
                 <?php echo Html::checkBox('is_open', !!$model->is_open); ?>
             </td>
