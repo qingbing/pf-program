@@ -40,16 +40,6 @@ $options = [
         'tip_msg' => '请输入链接地址',
         'is_required' => true,
     ],
-    [
-        'code' => 'src',
-        'type' => 'view',
-        'callable' => function () use ($model) {
-            if ('' != $model->src) {
-                return '<img src="' . $model->getImageSrc() . '" width="180px" />';
-            }
-            return null;
-        }
-    ],
     'src' => [
         'code' => 'src',
         'input_type' => FormGenerator::INPUT_TYPE_FILE,

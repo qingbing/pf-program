@@ -13,6 +13,9 @@ namespace Program\Controllers;
  * @var \Program\Components\Controller $this
  * @var \Program\Models\BlockCategory $model
  */
+
+use Program\Models\BlockCategory;
+
 $options = [
     'type' => [
         'callable' => ['\Program\Models\BlockCategory', 'types'],
@@ -33,6 +36,31 @@ $options = [
     'create_time',
     'update_time',
 ];
+if (BlockCategory::TYPE_CONTENT == $model->type) {
+    $options['content'] = [
+        'type' => 'view',
+        'callable' => function () use ($model) {
+            return $model->content;
+        },
+    ];
+} else if (BlockCategory::TYPE_IMAGE_LINK == $model->type) {
+    $options['content'] = [
+        'type' => 'view',
+        'callable' => function () use ($model) {
+            return $model->content;
+        },
+    ];
+    $options['src'] = [
+        'code' => 'src',
+        'type' => 'view',
+        'callable' => function () use ($model) {
+            if ('' != $model->src) {
+                return '<img src="' . $model->getImageSrc() . '" width="180px" />';
+            }
+            return null;
+        }
+    ];
+}
 $this->widget('\Widgets\FormGenerator', [
     'model' => $model,
     'options' => $options,
