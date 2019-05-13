@@ -35,6 +35,7 @@ use Html;
         <th class="text-center" width="80px">链接地址</th>
         <th class="text-center" width="80px">图片</th>
         <th class="text-center" width="80px">显示排序</th>
+        <th class="text-center" width="50px">新开窗口</th>
         <th class="text-center" width="50px">管理开放</th>
         <th class="text-center" width="50px">启用状态</th>
         <th class="text-center" width="320px">操作</th>
@@ -53,6 +54,9 @@ use Html;
                     echo '<img src="' . $model->getImageSrc() . '" width="180px" />';
                 } ?></td>
             <td class="text-center" data-name="sort_order"><?php echo $model->sort_order; ?></td>
+            <td class="text-center" data-name="is_blank">
+                <?php echo Html::checkBox('is_blank', !!$model->is_blank); ?>
+            </td>
             <td class="text-center" data-name="is_open">
                 <?php echo Html::checkBox('is_open', !!$model->is_open); ?>
             </td>
