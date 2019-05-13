@@ -63,10 +63,12 @@ $this->widget('\Widgets\TableView', [
         $operate = '<a href="' . $this->createUrl('detail', ['key' => $data->key]) . '" class="text-info w-modal" data-mode="custom"><i class="fa fa-list-alt">详情</i></a>';
         $operate .= ' <a href="' . $this->createUrl('edit', ['key' => $data->key]) . '" class="text-primary w-modal" data-mode="custom"><i class="fa fa-edit">编辑</i></a>';
         $operate .= ' <a href="' . $this->createUrl('delete', ['key' => $data->key]) . '" class="text-danger CONFIRM_AJAX" data-reload="true" data-message="确认删除该选项么？"><i class="fa fa-trash">删除</i></a>';
-        if (!in_array($data->type, [BlockCategory::TYPE_CONTENT,])) {
-            $operate .= ' <a href="' . $this->createUrl('/blockOption/index', ['key' => $data->key]) . '" class="text-info" target="_blank"><i class="fa fa-list-alt">查看选项</i></a>';
-        }else{
+        if (BlockCategory::TYPE_CONTENT == $data->type) {
             $operate .= ' <a href="' . $this->createUrl('content', ['key' => $data->key]) . '" class="text-warning w-modal" target="_blank"><i class="fa fa-edit">设置内容</i></a>';
+        } else if (BlockCategory::TYPE_IMAGE_LINK == $data->type) {
+            $operate .= ' <a href="' . $this->createUrl('image', ['key' => $data->key]) . '" class="text-warning w-modal" target="_blank"><i class="fa fa-edit">设置图片</i></a>';
+        } else {
+            $operate .= ' <a href="' . $this->createUrl('/blockOption/index', ['key' => $data->key]) . '" class="text-info" target="_blank"><i class="fa fa-list-alt">查看选项</i></a>';
         }
         $process = [
             'is_open' => Labels::YesNo($data->is_open),

@@ -1,6 +1,7 @@
 <?php
 // 申明命名空间
 namespace Program\Controllers;
+
 // 引用类
 use DbSupports\Builder\Criteria;
 use Program\Components\Controller;
@@ -156,6 +157,38 @@ class BlockCateController extends Controller
         $this->setPageTitle('编辑区块内容');
         // 渲染页面
         $this->render('content', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * 修改内容区块的内容信息
+     * @throws \Exception
+     */
+    public function actionImage()
+    {
+        // 数据获取
+        $model = $this->getModel();
+        // 表单提交处理
+        if (isset($_POST['BlockCategory'])) {
+            $this->logMessage = '修改区块图片信息';
+            if (isset($_POST['BlockCategory']['src'])) {
+                // 图片上传会使用 $_FILES
+                unset($_POST['BlockCategory']['src']);
+            }
+            $model->setAttributes($_POST['BlockCategory']);
+            $this->logKeyword = $model->key;
+            if ($model->save()) {
+                $this->logData = $model->getAttributes();
+                $this->success('修改区块图片信息成功');
+            } else {
+                $this->failure('', $model->getErrors());
+            }
+        }
+        // 设置页面标题
+        $this->setPageTitle('上传图片信息');
+        // 渲染页面
+        $this->render('image', [
             'model' => $model,
         ]);
     }

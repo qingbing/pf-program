@@ -1,6 +1,7 @@
 <?php
 // 申明命名空间
 namespace Program\Controllers;
+
 // 引用类
 use DbSupports\Builder\Criteria;
 use Program\Components\Controller;
@@ -37,6 +38,10 @@ class BlockOptionController extends Controller
         $category = BlockCategory::model()->findByPk($this->getActionParam('key'));
         if (null === $category) {
             $this->throwHttpException(404, '区块类型不存在');
+        }
+        // 确保需要子项的区块才能进入列表等操作
+        if (in_array($category->type, [BlockCategory::TYPE_CONTENT, BlockCategory::TYPE_IMAGE_LINK])) {
+            $this->throwHttpException(403, '对不起，该区块没有子项操作');
         }
         $this->category = $category;
         return true;
@@ -101,6 +106,7 @@ class BlockOptionController extends Controller
         // 表单提交处理
         if (isset($_POST['BlockOption'])) {
             if (isset($_POST['BlockOption']['src'])) {
+                // 图片上传会使用 $_FILES
                 unset($_POST['BlockOption']['src']);
             }
             $this->logMessage = '编辑表单选项详情';
