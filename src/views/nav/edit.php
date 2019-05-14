@@ -33,7 +33,7 @@ $options = [
         'data_type' => FormGenerator::DATA_TYPE_STRING,
         'tip_msg' => '请输入导航标签',
         'ajax_url' => $this->createUrl('uniqueLabel', ['key' => $fixer['key'], 'id' => $model->id, 'parentId' => $model->parent_id]),
-        'is_required' => true,
+        'allow_empty' => false,
     ],
     'url' => [
         'code' => 'url',
@@ -47,7 +47,7 @@ $options = [
         'data_type' => FormGenerator::DATA_TYPE_INTEGER,
         'tip_msg' => '请输入排序',
         'min' => '0',
-        'is_required' => true,
+        'allow_empty' => false,
     ],
     'is_category' => [
         'callable' => ['\Tools\Labels', 'YesNo'],
@@ -57,26 +57,26 @@ $options = [
         'code' => 'is_enable',
         'input_type' => FormGenerator::INPUT_TYPE_SELECT,
         'input_data' => Labels::enable(),
-        'is_required' => true,
+        'allow_empty' => false,
     ],
     'is_open' => [
         'code' => 'is_open',
         'input_type' => FormGenerator::INPUT_TYPE_SELECT,
         'input_data' => Labels::YesNo(),
-        'is_required' => true,
+        'allow_empty' => false,
     ],
     'is_blank' => [
         'code' => 'is_blank',
         'input_type' => FormGenerator::INPUT_TYPE_SELECT,
         'input_data' => Labels::YesNo(),
-        'is_required' => true,
+        'allow_empty' => false,
     ],
     'description' => [
         'code' => 'description',
         'input_type' => FormGenerator::INPUT_TYPE_TEXTAREA,
         'data_type' => FormGenerator::DATA_TYPE_STRING,
         'tip_msg' => '描述',
-        'is_required' => false,
+        'allow_empty' => true,
     ],
 ];
 // 填写表单

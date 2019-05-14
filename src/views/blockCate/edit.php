@@ -43,7 +43,7 @@ $options = [
         'input_type' => FormGenerator::INPUT_TYPE_TEXTAREA,
         'data_type' => FormGenerator::DATA_TYPE_STRING,
         'tip_msg' => '类型描述',
-        'is_required' => true,
+        'allow_empty' => false,
     ],
     'sort_order' => [
         'code' => 'sort_order',
