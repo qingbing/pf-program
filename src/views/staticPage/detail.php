@@ -3,8 +3,6 @@
 namespace Program\Controllers;
 
 // 引用类
-use FormGenerator;
-use Html;
 
 /**
  * Created by generate tool of phpcorner.

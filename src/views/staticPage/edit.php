@@ -16,7 +16,6 @@ use Html;
  * @var \Program\Components\Controller $this
  * @var \Program\Models\StaticContent $model
  */
-
 echo Html::beginForm('', 'post', [
     'id' => 'ajaxForm',
     'data-callback' => 'PL.saveModalCallback',

@@ -17,7 +17,7 @@ use Tools\TableHeader;
  * @var array $pager
  * @var array $fixer
  */
-echo Html::beginForm(['program/formCate/index'], 'get', [
+echo Html::beginForm(['program/staticPage/index'], 'get', [
     'class' => 'form-inline margin-bottom',
 ]); ?>
     <dl class="form-group inline">
