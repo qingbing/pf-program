@@ -16,7 +16,6 @@ use Tools\Labels;
  *
  * @var \Program\Components\Controller $this
  * @var \Program\Models\Nav $model
- * @var array $fixer
  */
 $options = [
     'label',

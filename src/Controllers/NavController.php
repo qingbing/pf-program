@@ -79,9 +79,9 @@ class NavController extends Controller
         if (isset($_POST['Nav'])) {
             $model->setAttributes($_POST['Nav']);
             $model->parent_id = $this->parentId;
-            $this->logMessage = '添加导航';
+            $this->logMessage = '添加导航-{$model->label}';
             if ($model->save()) {
-                $this->logKeyword = "{$model->id}-{$model->label}";
+                $this->logKeyword = $model->id;
                 $this->logData = $model->getAttributes();
                 $this->success('添加导航成功');
             } else {
@@ -108,8 +108,8 @@ class NavController extends Controller
         $fixer = $this->getActionParams();
         unset($fixer['id'], $fixer['parentId']);
         $model->setAttributes($fixer);
-        $this->logMessage = '修改导航明细';
-        $this->logKeyword = "{$model->id}-{$model->label}";
+        $this->logMessage = '修改导航明细-' . $model->label;
+        $this->logKeyword = $model->id;
         if ($model->save()) {
             $this->logData = $this->getActionParams();
             $this->success('修改导航明细成功');
@@ -128,9 +128,9 @@ class NavController extends Controller
         $model = $this->getModel();
         // 表单提交处理
         if (isset($_POST['Nav'])) {
-            $this->logMessage = '编辑导航';
             $model->setAttributes($_POST['Nav']);
-            $this->logKeyword = "{$model->id}-{$model->label}";
+            $this->logMessage = '编辑导航-' . $model->label;
+            $this->logKeyword = $model->id;
             if ($model->save()) {
                 $this->logData = $model->getAttributes();
                 $this->success('编辑导航成功');
@@ -155,8 +155,8 @@ class NavController extends Controller
     {
         // 数据获取
         $model = $this->getModel();
-        $this->logMessage = '删除导航';
-        $this->logKeyword = "{$model->id}-{$model->label}";
+        $this->logMessage = '删除导航-' . $model->label;
+        $this->logKeyword = $model->id;
         if ($model->delete()) {
             $this->logData = $model->getAttributes();
             $this->success('删除导航成功');
@@ -174,7 +174,7 @@ class NavController extends Controller
         // 数据获取
         $model = $this->getModel();
         // 设置页面标题
-        $this->setPageTitle('查看导航');
+        $this->setPageTitle("查看导航-{$model->label}");
         // 渲染页面
         $this->render('detail', [
             'model' => $model,
@@ -220,8 +220,8 @@ class NavController extends Controller
         $switch->sort_order = $current_sort_order;
 
         // 日志记录
-        $this->logMessage = '导航顺序调整';
-        $this->logKeyword = "{$current->id}:{$current->label}<->{$switch->id}:{$switch->label}";
+        $this->logMessage = '导航顺序调整 - ' . "{$current->id}:{$current->label}<->{$switch->id}:{$switch->label}";
+        $this->logKeyword = $current->id;
 
         $this->logData = [
             'current' => $current->getAttributes(),
@@ -246,7 +246,7 @@ class NavController extends Controller
         $models = $this->findAll();
         $i = 0;
         $this->logMessage = '导航顺序刷新';
-        $this->logKeyword = "{$this->parentId}-子导航顺序刷新";
+        $this->logKeyword = $this->parentId;
         $transaction = \PF::app()->getDb()->beginTransaction();
         foreach ($models as $model) {
             $model->sort_order = ++$i;

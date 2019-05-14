@@ -56,8 +56,8 @@ use Tools\Labels;
                 <?php echo Labels::YesNo($model->is_category); ?>
             </td>
             <td class="text-center"><?php echo $model->subOptionCount ?></td>
-            <td class="text-center" data-name="label"><?php echo $model->label; ?></td>
-            <td class="text-center" data-name="url"><?php echo $model->url; ?></td>
+            <td class="text-left" data-name="label"><?php echo $model->label; ?></td>
+            <td class="text-left" data-name="url"><?php echo $model->url; ?></td>
             <td class="text-center" data-name="is_enable">
                 <?php echo Html::checkBox('is_enable', !!$model->is_enable); ?>
             </td>
