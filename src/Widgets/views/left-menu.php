@@ -19,6 +19,7 @@ $module = \Program\Components\Pub::getModule();
     </dl>
     <dl>
         <dt>网站设置</dt>
+        <dd><a href="<?php echo $module->createUrl('nav/index'); ?>">前台导航</a></dd>
         <dd><a href="<?php echo $module->createUrl('headerCate/index'); ?>">表头设置</a></dd>
         <dd><a href="<?php echo $module->createUrl('formCate/index'); ?>">表单配置</a></dd>
         <dd><a href="<?php echo $module->createUrl('replace/index'); ?>">替换模板</a></dd>
