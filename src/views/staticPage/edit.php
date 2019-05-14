@@ -25,13 +25,7 @@ echo Html::beginForm('', 'post', [
     'enctype' => 'multipart/form-data',
 ]);
 $options = [
-    'code' => [
-        'code' => 'code',
-        'input_type' => FormGenerator::INPUT_TYPE_TEXT,
-        'data_type' => FormGenerator::DATA_TYPE_STRING,
-        'tip_msg' => '请输入程序引用别名',
-        'ajax_url' => $this->createUrl('uniqueCode'),
-    ],
+    'code',
     'subject' => [
         'code' => 'subject',
         'input_type' => FormGenerator::INPUT_TYPE_TEXTAREA,

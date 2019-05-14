@@ -1,8 +1,12 @@
 <?php
 // 申明命名空间
 namespace Program\Models;
+
 // 引用类
 use Abstracts\DbModel;
+use Helper\Format;
+use Program\Components\Pub;
+use Tools\UploadManager;
 
 /**
  * Created by generate tool of phpcorner.
@@ -13,7 +17,7 @@ use Abstracts\DbModel;
  *
  * This is the model class for table "pub_static_content".
  * The followings are the available columns in table 'pub_static_content':
- * 
+ *
  * @property integer id
  * @property string code
  * @property string subject
@@ -60,7 +64,8 @@ class StaticContent extends DbModel
             ['code, subject, keywords, description', 'string', 'maxLength' => 255],
             ['x_flag', 'string', 'maxLength' => 20],
             ['ip', 'string', 'maxLength' => 15],
-            ['content, create_time, update_time', 'safe'],
+            ['content', 'string'],
+            ['create_time, update_time', 'safe'],
         ];
     }
 
@@ -95,19 +100,21 @@ class StaticContent extends DbModel
         ];
     }
 
-
     /**
      * 在数据保存之前执行
      * @return bool
+     * @throws \Exception
      */
     protected function beforeSave()
     {
-
-
-        exit;
+        $datetime = Format::datetime();
+        $this->setAttributes([
+            'uid' => Pub::getUser()->getUid(),
+            'ip' => Pub::getApp()->getRequest()->getUserHostAddress(),
+        ]);
+        $this->setAttribute('update_time', $datetime);
         if ($this->getIsNewRecord()) {
-            // 插入
-            $this->create_time = Format::formatDatetime();
+            $this->setAttribute('create_time', $datetime);
         }
         return true;
     }
@@ -118,8 +125,6 @@ class StaticContent extends DbModel
      */
     protected function beforeDelete()
     {
-        exit;
-        UploadManage::removeEditor('static', $this->x_flag);
-        return true;
+        return \KindEditor::removeEditor('static_page', $this->x_flag);
     }
 }

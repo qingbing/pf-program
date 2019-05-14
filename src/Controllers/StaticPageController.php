@@ -17,7 +17,6 @@ use Program\Models\StaticContent;
  */
 class StaticPageController extends Controller
 {
-
     /* @var mixed 控制器的layout */
     public $layout = '/layouts/modal';
     /* @var boolean 是否开启操作日志，默认关闭 */
@@ -68,6 +67,7 @@ class StaticPageController extends Controller
 
     /**
      * 添加静态内容
+     * @throws \Exception
      */
     public function actionAdd()
     {
@@ -95,6 +95,7 @@ class StaticPageController extends Controller
 
     /**
      * 编辑静态内容
+     * @throws \Exception
      */
     public function actionEdit()
     {
@@ -122,6 +123,7 @@ class StaticPageController extends Controller
 
     /**
      * 查看静态内容信息
+     * @throws \Exception
      */
     public function actionDetail()
     {
@@ -137,6 +139,7 @@ class StaticPageController extends Controller
 
     /**
      * 删除静态内容
+     * @throws \Exception
      */
     public function actionDelete()
     {
@@ -153,17 +156,43 @@ class StaticPageController extends Controller
     }
 
     /**
-     * @return null|\pf\db\ActiveRecord|StaticContent
-     * @throws HttpException
+     * 获取操作模型
+     * @return \Abstracts\DbModel|null|StaticContent
+     * @throws \Exception
      */
     protected function getModel()
     {
-        $id = \PF::app()->getRequest()->getParam('id');
-        $model = StaticContent::model()->findByPk($id);
+        $model = StaticContent::model()->findByPk($this->getActionParam('id'));
         /* @var StaticContent $model */
         if (null === $model) {
-            throw new HttpException('静态内容不存在', 404);
+            $this->throwHttpException(404, '静态内容不存在');
         }
         return $model;
+    }
+
+    /**
+     * 验证表头选项标识符的唯一性
+     * @throws \Exception
+     */
+    public function actionUniqueCode()
+    {
+        // 获取参数
+        $fixer = $this->getActionParams();
+        // 组装验证内容
+        $criteria = new Criteria();
+        $criteria->addWhere('`code`=:code')
+            ->addParam(':code', $fixer['param']);
+        if (isset($fixer['id']) && $fixer['id']) {
+            $criteria->addWhere('`id`!=:id')
+                ->addParam(':id', $fixer['id']);
+        }
+        $count = StaticContent::model()->count($criteria);
+        // 返回验证结果
+        $this->openLog = false;
+        if ($count > 0) {
+            $this->failure("引用代码\"{$fixer['param']}\"已经存在");
+        } else {
+            $this->success("引用代码\"{$fixer['param']}\"可用");
+        }
     }
 }
