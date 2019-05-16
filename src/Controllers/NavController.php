@@ -278,6 +278,32 @@ class NavController extends Controller
     }
 
     /**
+     * 验证导航标记的唯一性
+     * @throws \Exception
+     */
+    public function actionUniqueFlag()
+    {
+        // 获取参数
+        $fixer = $this->getActionParams();
+        // 组装验证内容
+        $criteria = new Criteria();
+        $criteria->addWhere('`flag`=:flag')
+            ->addParam(':flag', $fixer['param']);
+        if (isset($fixer['id']) && $fixer['id']) {
+            $criteria->addWhere('`id`!=:id')
+                ->addParam(':id', $fixer['id']);
+        }
+        $count = Nav::model()->count($criteria);
+        // 返回验证结果
+        $this->openLog = false;
+        if ($count > 0) {
+            $this->failure("导航标记\"{$fixer['param']}\"已经存在");
+        } else {
+            $this->success("导航标记\"{$fixer['param']}\"可用");
+        }
+    }
+
+    /**
      * 验证导航别名的唯一性
      * @throws \Exception
      */

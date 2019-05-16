@@ -3,6 +3,7 @@
 namespace Program\models;
 // 引用类
 use Abstracts\DbModel;
+use DbSupports\Builder\Criteria;
 use DbSupports\Expression;
 use Helper\Exception;
 use Program\Components\Pub;
@@ -137,6 +138,38 @@ class User extends DbModel
     public function generatePassword($password)
     {
         return md5(md5($password));
+    }
+
+    /**
+     * 在数据保存之前执行
+     * @return bool
+     * @throws \Exception
+     */
+    protected function beforeSave()
+    {
+        // 查询组件准备
+        $criteria = new Criteria();
+        if (!$this->getIsNewRecord()) {
+            $criteria->addWhere('`uid`!=:uid')
+                ->addParam(':uid', $this->uid);
+        }
+        // 标签验证
+        $cUsername = clone $criteria;
+        $cUsername->addWhere('`username`=:username')
+            ->addParam(':username', $this->username);
+        if ($this->count($cUsername) > 0) {
+            $this->addError('username', "用户名{$this->username}已经存在");
+            return false;
+        }
+        // 标志验证
+        $cNickname = clone $criteria;
+        $cNickname->addWhere('`nickname`=:nickname')
+            ->addParam(':nickname', $this->nickname);
+        if ($this->count($cNickname) > 0) {
+            $this->addError('nickname', "用户昵称{$this->nickname}已经存在");
+            return false;
+        }
+        return true;
     }
 
     /**

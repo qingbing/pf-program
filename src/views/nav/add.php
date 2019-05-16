@@ -26,6 +26,14 @@ echo Html::beginForm('', 'post', [
     'enctype' => 'multipart/form-data',
 ]);
 $options = [
+    'flag' => [
+        'code' => 'flag',
+        'input_type' => FormGenerator::INPUT_TYPE_TEXT,
+        'data_type' => FormGenerator::DATA_TYPE_STRING,
+        'tip_msg' => '请输入导航标记',
+        'ajax_url' => $this->createUrl('uniqueFlag'),
+        'allow_empty' => false,
+    ],
     'label' => [
         'code' => 'label',
         'input_type' => FormGenerator::INPUT_TYPE_TEXT,
@@ -38,7 +46,7 @@ $options = [
         'code' => 'url',
         'input_type' => FormGenerator::INPUT_TYPE_TEXT,
         'data_type' => FormGenerator::DATA_TYPE_STRING,
-        'tip_msg' => '请输入导航标签',
+        'tip_msg' => '请输入跳转链接',
     ],
     'sort_order' => [
         'code' => 'sort_order',

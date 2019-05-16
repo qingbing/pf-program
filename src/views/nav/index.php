@@ -36,6 +36,7 @@ use Tools\Labels;
         <th class="text-center" width="50px">排序号</th>
         <th class="text-center" width="50px">是否分类</th>
         <th class="text-center" width="50px">子项数</th>
+        <th class="text-center" width="90px">标记</th>
         <th class="text-center" width="100px">显示标签</th>
         <th class="text-center" width="100px">导航url</th>
         <th class="text-center" width="50px">启用状态</th>
@@ -56,6 +57,7 @@ use Tools\Labels;
                 <?php echo Labels::YesNo($model->is_category); ?>
             </td>
             <td class="text-center"><?php echo $model->subOptionCount ?></td>
+            <td class="text-left" data-name="flag"><?php echo $model->flag; ?></td>
             <td class="text-left" data-name="label"><?php echo $model->label; ?></td>
             <td class="text-left" data-name="url"><?php echo $model->url; ?></td>
             <td class="text-center" data-name="is_enable">

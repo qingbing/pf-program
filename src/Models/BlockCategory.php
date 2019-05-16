@@ -4,6 +4,7 @@ namespace Program\Models;
 
 // 引用类
 use Abstracts\DbModel;
+use DbSupports\Builder\Criteria;
 use Helper\Exception;
 use Helper\Format;
 use Tools\UploadFile;
@@ -103,6 +104,69 @@ class BlockCategory extends DbModel
         ];
     }
 
+    const TYPE_CONTENT = 'content';
+    const TYPE_IMAGE_LINK = 'image-link';
+    const TYPE_CLOUD_WORDS = 'cloud-words';
+    const TYPE_CLOUD_WORDS_LINKS = 'cloud-words-links';
+    const TYPE_LIST = 'list';
+    const TYPE_LIST_LINKS = 'list-links';
+    const TYPE_IMAGES = 'images';
+    const TYPE_IMAGES_LINKS = 'images-links';
+
+    /**
+     * 区块类型
+     * @param string $type
+     * @return array|null
+     */
+    static public function types($type = null)
+    {
+        $data = [
+            self::TYPE_CONTENT => '内容',
+            self::TYPE_IMAGE_LINK => '图片',
+            self::TYPE_CLOUD_WORDS => '云词',
+            self::TYPE_CLOUD_WORDS_LINKS => '链接云词',
+            self::TYPE_LIST => '列表',
+            self::TYPE_LIST_LINKS => '链接列表',
+            self::TYPE_IMAGES => '图片集',
+            self::TYPE_IMAGES_LINKS => '链接图片集',
+        ];
+        if (null === $type) {
+            return $data;
+        } else {
+            return isset($data[$type]) ? $data[$type] : null;
+        }
+    }
+
+    /**
+     * 验证通过后执行
+     * @throws \Exception
+     */
+    protected function afterValidate()
+    {
+        // 查询组件准备
+        $criteria = new Criteria();
+        if ($this->getIsNewRecord()) {
+            // key 验证
+            $cKey = clone $criteria;
+            $cKey->addWhere('`key`=:key')
+                ->addParam(':key', $this->key);
+            if ($this->count($cKey) > 0) {
+                $this->addError('key', "引用标识{$this->key}已经存在");
+                return false;
+            }
+        } else {
+            $criteria->addWhere('`key`!=:key')
+                ->addParam(':key', $this->key);
+        }
+        // 标志验证
+        $criteria->addWhere('`name`=:name')
+            ->addParam(':name', $this->name);
+        if ($this->count($criteria) > 0) {
+            $this->addError('name', "别名{$this->name}已经存在");
+            return false;
+        }
+    }
+
     /**
      * 在数据保存之前执行
      * @return bool
@@ -110,7 +174,7 @@ class BlockCategory extends DbModel
      */
     protected function beforeSave()
     {
-        if(self::TYPE_IMAGE_LINK == $this->type){
+        if (self::TYPE_IMAGE_LINK == $this->type) {
             $upload = UploadFile::getInstance($this, 'src');
             if ($upload) {
                 // 保存老信息
@@ -152,39 +216,6 @@ class BlockCategory extends DbModel
             return false;
         }
         return true;
-    }
-
-    const TYPE_CONTENT = 'content';
-    const TYPE_IMAGE_LINK = 'image-link';
-    const TYPE_CLOUD_WORDS = 'cloud-words';
-    const TYPE_CLOUD_WORDS_LINKS = 'cloud-words-links';
-    const TYPE_LIST = 'list';
-    const TYPE_LIST_LINKS = 'list-links';
-    const TYPE_IMAGES = 'images';
-    const TYPE_IMAGES_LINKS = 'images-links';
-
-    /**
-     * 区块类型
-     * @param string $type
-     * @return array|null
-     */
-    static public function types($type = null)
-    {
-        $data = [
-            self::TYPE_CONTENT => '内容',
-            self::TYPE_IMAGE_LINK => '图片',
-            self::TYPE_CLOUD_WORDS => '云词',
-            self::TYPE_CLOUD_WORDS_LINKS => '链接云词',
-            self::TYPE_LIST => '列表',
-            self::TYPE_LIST_LINKS => '链接列表',
-            self::TYPE_IMAGES => '图片集',
-            self::TYPE_IMAGES_LINKS => '链接图片集',
-        ];
-        if (null === $type) {
-            return $data;
-        } else {
-            return isset($data[$type]) ? $data[$type] : null;
-        }
     }
 
     /**

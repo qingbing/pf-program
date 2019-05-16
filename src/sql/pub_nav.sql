@@ -8,6 +8,7 @@ CREATE TABLE `pub_nav` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '父级ID',
   `is_category` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否分类导航',
+  `flag` varchar(50) NOT NULL COMMENT '标记',
   `label` varchar(50) NOT NULL COMMENT '显示标签',
   `url` varchar(50) DEFAULT NULL COMMENT '导航url',
   `sort_order` tinyint(4) NOT NULL DEFAULT '100' COMMENT '排序',

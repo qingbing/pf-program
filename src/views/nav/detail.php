@@ -18,6 +18,7 @@ use Tools\Labels;
  * @var \Program\Models\Nav $model
  */
 $options = [
+    'flag',
     'label',
     'url',
     'sort_order',

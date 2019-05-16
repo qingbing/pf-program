@@ -1,6 +1,7 @@
 <?php
 // 申明命名空间
 namespace Program\Models;
+
 // 引用类
 use Abstracts\DbModel;
 use DbSupports\Builder\Criteria;
@@ -296,10 +297,10 @@ class FormOption extends DbModel
                 }
                 break;
         }
-        if('' === $this->min){
+        if ('' === $this->min) {
             $this->min = null;
         }
-        if('' === $this->max){
+        if ('' === $this->max) {
             $this->max = null;
         }
         return true;
@@ -315,28 +316,29 @@ class FormOption extends DbModel
         $criteria->addWhere('`key`=:key')
             ->addParam(':key', $this->key);
 
-        $criteriaCode = clone($criteria);
-        $criteriaCode->addWhere('`code`=:code')
+        $cCode = clone($criteria);
+        $cCode->addWhere('`code`=:code')
             ->addParam(':code', $this->code);
 
-        $criteria->addWhere('`label`=:label')
+        $cLabel = clone($criteria);
+        $cLabel->addWhere('`label`=:label')
             ->addParam(':label', $this->label);
         if ($this->getIsNewRecord()) {
-            if (self::model()->count($criteriaCode) > 0) {
+            if (self::model()->count($cCode) > 0) {
                 $this->addError('code', "该表单配置选项中已经存在\"{$this->code}\"");
             }
-            if (self::model()->count($criteria) > 0) {
+            if (self::model()->count($cLabel) > 0) {
                 $this->addError('label', "该表单配置选项中已经存在\"{$this->label}\"");
             }
         } else {
-            $criteriaCode->addWhere('`id`!=:id')
+            $cCode->addWhere('`id`!=:id')
                 ->addParam(':id', $this->id);
-            $criteria->addWhere('`id`!=:id')
+            $cLabel->addWhere('`id`!=:id')
                 ->addParam(':id', $this->id);
-            if (self::model()->count($criteriaCode) > 0) {
+            if (self::model()->count($cCode) > 0) {
                 $this->addError('code', "该表单配置选项中已经存在\"{$this->code}\"");
             }
-            if (self::model()->count($criteria) > 0) {
+            if (self::model()->count($cLabel) > 0) {
                 $this->addError('label', "该表单配置选项中已经存在\"{$this->label}\"");
             }
         }

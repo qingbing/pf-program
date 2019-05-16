@@ -1,8 +1,10 @@
 <?php
 // 申明命名空间
 namespace Program\Models;
+
 // 引用类
 use Abstracts\DbModel;
+use DbSupports\Builder\Criteria;
 use Helper\Coding;
 
 /**
@@ -95,9 +97,34 @@ class ReplaceSetting extends DbModel
     /**
      * 在数据保存之前执行
      * @return bool
+     * @throws \Exception
      */
     protected function beforeSave()
     {
+        // 查询组件准备
+        $criteria = new Criteria();
+        if ($this->getIsNewRecord()) {
+            // key 验证
+            $cKey = clone $criteria;
+            $cKey->addWhere('`key`=:key')
+                ->addParam(':key', $this->key);
+            if ($this->count($cKey) > 0) {
+                $this->addError('key', "标识符{$this->key}已经存在");
+                return false;
+            }
+        } else {
+            $criteria->addWhere('`key`!=:key')
+                ->addParam(':key', $this->key);
+        }
+        // 标志验证
+        $criteria->addWhere('`name`=:name')
+            ->addParam(':name', $this->name);
+        if ($this->count($criteria) > 0) {
+            $this->addError('name', "名称{$this->name}已经存在");
+            return false;
+        }
+
+        // 属性处理
         $updateAttributes = $this->getUpdatedAttributes();
         if (in_array('replace_type', $updateAttributes)) {
             $replace_type = $this->replace_type;
