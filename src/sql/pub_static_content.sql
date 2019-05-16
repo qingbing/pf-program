@@ -7,7 +7,7 @@
 
 CREATE TABLE IF NOT EXISTS `pub_static_content` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
-  `code` varchar(255) DEFAULT NULL COMMENT '引用代码',
+  `code` varchar(30) DEFAULT NULL COMMENT '引用代码',
   `subject` varchar(255) NOT NULL COMMENT '内容主题',
   `keywords` varchar(255) DEFAULT NULL COMMENT 'seo的keywords',
   `description` varchar(255) DEFAULT NULL COMMENT 'seo的description',
