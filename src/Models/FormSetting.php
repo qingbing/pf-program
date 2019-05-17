@@ -1,6 +1,7 @@
 <?php
 // 申明命名空间
 namespace Program\Models;
+
 // 引用类
 use Abstracts\DbModel;
 
@@ -8,12 +9,12 @@ use Abstracts\DbModel;
  * Created by generate tool of phpcorner.
  * Link         :   http://www.phpcorner.net/
  * User         :   qingbing
- * Date         :   2019-03-07
+ * Date         :   2019-05-17
  * Version      :   1.0
  *
  * This is the model class for table "pub_form_setting".
  * The followings are the available columns in table 'pub_form_setting':
- * 
+ *
  * @property string key
  * @property string content
  */
@@ -45,7 +46,7 @@ class FormSetting extends DbModel
     public function rules()
     {
         return [
-            ['key', 'string', 'maxLength' => 255],
+            ['key', 'string', 'maxLength' => 100],
             ['content', 'safe'],
         ];
     }

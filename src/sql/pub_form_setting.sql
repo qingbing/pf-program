@@ -8,15 +8,18 @@
 --
 
 CREATE TABLE IF NOT EXISTS `pub_form_category` (
-  `key` varchar(255) NOT NULL COMMENT '表单索引或标志，全站唯一',
-  `name` varchar(255) NOT NULL COMMENT '表单类别名称',
+  `key` varchar(100) NOT NULL COMMENT '表单索引或标志，全站唯一',
+  `name` varchar(100) NOT NULL COMMENT '表单类别名称',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '表单类别描述',
   `sort_order` tinyint(4) NOT NULL DEFAULT '0' COMMENT '排序',
   `is_setting` tinyint(1) NOT NULL DEFAULT '1' COMMENT '配置类型[0:搜集表单，1:配置项]',
   `is_open` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否开放，否时管理员不可操作（不可见）',
   `is_enable` tinyint(1) NOT NULL DEFAULT '1' COMMENT '启用状态',
   PRIMARY KEY (`key`),
-  KEY (`sort_order`)
+  KEY (`sort_order`),
+  KEY (`is_setting`),
+  KEY (`is_open`),
+  KEY (`is_enable`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='表单设置类别表';
 
 -- --------------------------------------------------------
@@ -27,39 +30,40 @@ CREATE TABLE IF NOT EXISTS `pub_form_category` (
 
 CREATE TABLE IF NOT EXISTS `pub_form_option` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
-  `key` varchar(255) NOT NULL COMMENT '所属表单分类（来自form_category）',
-  `code` varchar(255) NOT NULL COMMENT '字段名',
-  `label` varchar(255) NOT NULL COMMENT '表单显示名',
-  `default` varchar(255) NOT NULL DEFAULT '' COMMENT '默认值',
+  `key` varchar(100) NOT NULL COMMENT '所属表单分类（来自form_category）',
+  `code` varchar(100) NOT NULL COMMENT '字段名',
+  `label` varchar(100) NOT NULL COMMENT '表单显示名',
+  `default` varchar(100) NOT NULL DEFAULT '' COMMENT '默认值',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '分类配置描述',
   `sort_order` tinyint(4) NOT NULL DEFAULT '0' COMMENT '当前分类排序',
   `input_type` enum('text','select','textarea','editor','checkbox','checkbox_list','radio_list','password','hidden','file') NOT NULL DEFAULT 'text' COMMENT '输入类型',
   `data_type` enum('required','email','url','ip','phone','mobile','contact','fax','zip','time','date','username','password','compare','preg','string','numeric','integer','money','file','select','choice','checked') DEFAULT 'string' COMMENT '前端数据验证',
   `input_data` text COMMENT '非直接输入框的json键值对',
   `allow_empty` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否允许为空',
-  `compare_field` varchar(255) NOT NULL DEFAULT '' COMMENT '对比字段，只对compare的数据类型有效，对应于compareField',
-  `pattern` varchar(255) NOT NULL DEFAULT '' COMMENT '正则匹配表达式，对正则匹配验证有效',
-  `tip_msg` varchar(255) NOT NULL DEFAULT '' COMMENT '页面提示信息，对应于tipMsg',
-  `error_msg` varchar(255) NOT NULL DEFAULT '' COMMENT '页面错误提示信息，对应于errorMsg',
-  `empty_msg` varchar(255) NOT NULL DEFAULT '' COMMENT '信息为空提示信息，对应于emptyMsg',
+  `compare_field` varchar(100) NOT NULL DEFAULT '' COMMENT '对比字段，只对compare的数据类型有效，对应于compareField',
+  `pattern` varchar(200) NOT NULL DEFAULT '' COMMENT '正则匹配表达式，对正则匹配验证有效',
+  `tip_msg` varchar(200) NOT NULL DEFAULT '' COMMENT '页面提示信息，对应于tipMsg',
+  `error_msg` varchar(200) NOT NULL DEFAULT '' COMMENT '页面错误提示信息，对应于errorMsg',
+  `empty_msg` varchar(200) NOT NULL DEFAULT '' COMMENT '信息为空提示信息，对应于emptyMsg',
   `min` tinyint(4) DEFAULT NULL COMMENT '最小值/最小长度，对应于min,minLength',
-  `min_msg` varchar(255) NOT NULL DEFAULT '' COMMENT '最小值提示信息，对应于minErrorMsg',
+  `min_msg` varchar(200) NOT NULL DEFAULT '' COMMENT '最小值提示信息，对应于minErrorMsg',
   `max` tinyint(4) DEFAULT NULL COMMENT '最大值/最大长度，对应于max,maxLength',
-  `max_msg` varchar(255) NOT NULL DEFAULT '' COMMENT '最大值提示信息，对应于maxErrorMsg',
-  `file_extensions` varchar(255) NOT NULL DEFAULT '' COMMENT '文件上传时支持的文件后缀类型,用|分隔',
+  `max_msg` varchar(200) NOT NULL DEFAULT '' COMMENT '最大值提示信息，对应于maxErrorMsg',
+  `file_extensions` varchar(200) NOT NULL DEFAULT '' COMMENT '文件上传时支持的文件后缀类型,用|分隔',
 
-  `callback` varchar(255) NOT NULL DEFAULT '' COMMENT '验证回调函数，在页面中需要定义对应的回调函数',
-  `ajax_url` varchar(255) NOT NULL DEFAULT '' COMMENT 'ajax验证URL',
+  `callback` varchar(100) NOT NULL DEFAULT '' COMMENT '验证回调函数，在页面中需要定义对应的回调函数',
+  `ajax_url` varchar(200) NOT NULL DEFAULT '' COMMENT 'ajax验证URL',
 
-  `tip_id` varchar(255) NOT NULL DEFAULT '' COMMENT '表单验证的信息提示框',
-  `css_id` varchar(255) NOT NULL DEFAULT '' COMMENT '表单元素ID',
-  `css_class` varchar(255) NOT NULL DEFAULT '' COMMENT '表单元素的类',
-  `css_style` varchar(255) NOT NULL DEFAULT '' COMMENT '输入表单元素的样式',
+  `tip_id` varchar(100) NOT NULL DEFAULT '' COMMENT '表单验证的信息提示框',
+  `css_id` varchar(100) NOT NULL DEFAULT '' COMMENT '表单元素ID',
+  `css_class` varchar(100) NOT NULL DEFAULT '' COMMENT '表单元素的类',
+  `css_style` varchar(200) NOT NULL DEFAULT '' COMMENT '输入表单元素的样式',
   `is_enable` tinyint(1) NOT NULL DEFAULT '1' COMMENT '表单项目启用状态',
   PRIMARY KEY (`id`),
   KEY (`sort_order`),
   UNIQUE KEY `key_code` (`code`,`key`),
-  UNIQUE KEY `key_label` (`label`,`key`)
+  UNIQUE KEY `key_label` (`label`,`key`),
+  KEY (`is_enable`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='表单配置项目' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -69,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `pub_form_option` (
 --
 
 CREATE TABLE IF NOT EXISTS `pub_form_setting` (
-  `key` varchar(255) NOT NULL COMMENT '表单分类（来自form_category）',
+  `key` varchar(100) NOT NULL COMMENT '表单分类（来自form_category）',
   `content` text COMMENT '表单配置项目值',
   PRIMARY KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='表单配置类别值';

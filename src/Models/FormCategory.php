@@ -10,7 +10,7 @@ use DbSupports\Builder\Criteria;
  * Created by generate tool of phpcorner.
  * Link         :   http://www.phpcorner.net/
  * User         :   qingbing
- * Date         :   2019-03-07
+ * Date         :   2019-05-17
  * Version      :   1.0
  *
  * This is the model class for table "pub_form_category".
@@ -54,7 +54,8 @@ class FormCategory extends DbModel
         return [
             ['sort_order, is_setting, is_open, is_enable', 'required'],
             ['sort_order, is_setting, is_open, is_enable', 'numerical', 'integerOnly' => true],
-            ['key, name, description', 'string', 'maxLength' => 255],
+            ['key, name', 'string', 'maxLength' => 100],
+            ['description', 'string', 'maxLength' => 255],
             ['name', self::UNIQUE],
         ];
     }
