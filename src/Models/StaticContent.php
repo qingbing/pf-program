@@ -1,12 +1,12 @@
 <?php
 // 申明命名空间
 namespace Program\Models;
+
 // 引用类
 use Abstracts\DbModel;
 use DbSupports\Builder\Criteria;
 use Helper\Format;
 use Program\Components\Pub;
-use Tools\UploadManager;
 
 /**
  * Created by generate tool of phpcorner.
@@ -17,7 +17,7 @@ use Tools\UploadManager;
  *
  * This is the model class for table "pub_static_content".
  * The followings are the available columns in table 'pub_static_content':
- * 
+ *
  * @property integer id
  * @property string code
  * @property string subject
@@ -62,7 +62,8 @@ class StaticContent extends DbModel
             ['sort_order', 'required'],
             ['sort_order, uid', 'numerical', 'integerOnly' => true],
             ['code', 'string', 'maxLength' => 30],
-            ['subject, keywords, description', 'string', 'maxLength' => 255],
+            ['subject, keywords', 'string', 'maxLength' => 100],
+            ['description', 'string', 'maxLength' => 255],
             ['x_flag', 'string', 'maxLength' => 20],
             ['ip', 'string', 'maxLength' => 15],
             ['content', 'string'],
