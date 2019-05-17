@@ -11,7 +11,7 @@ use Helper\Coding;
  * Created by generate tool of phpcorner.
  * Link         :   http://www.phpcorner.net/
  * User         :   qingbing
- * Date         :   2019-03-13
+ * Date         :   2019-05-17
  * Version      :   1.0
  *
  * This is the model class for table "pub_replace_setting".
@@ -58,7 +58,8 @@ class ReplaceSetting extends DbModel
         return [
             ['sort_order, is_open', 'required'],
             ['sort_order, is_open', 'numerical', 'integerOnly' => true],
-            ['key, name, description', 'string', 'maxLength' => 255],
+            ['key, name', 'string', 'maxLength' => 100],
+            ['description', 'string', 'maxLength' => 255],
             ['x_flag', 'string', 'maxLength' => 50],
             ['replace_type', 'multiIn', 'range' => ['system', 'login', 'client']],
             ['template, content, replace_fields', 'string'],

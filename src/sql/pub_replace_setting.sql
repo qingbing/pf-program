@@ -5,8 +5,8 @@
 --
 
 CREATE TABLE IF NOT EXISTS `pub_replace_setting` (
-  `key` varchar(255) NOT NULL COMMENT '替换配置标识符',
-  `name` varchar(255) NOT NULL COMMENT '替换配置名称',
+  `key` varchar(100) NOT NULL COMMENT '替换配置标识符',
+  `name` varchar(100) NOT NULL COMMENT '替换配置名称',
   `description` varchar(255) DEFAULT NULL COMMENT '内容描述',
   `x_flag` varchar(50) DEFAULT NULL COMMENT '在线编辑器标识符',
   `template` text DEFAULT NULL COMMENT '默认模板',
