@@ -9,7 +9,7 @@
 namespace Program\Components;
 
 
-use Program\models\User;
+use Program\Models\User;
 
 class WebUser extends \Abstracts\WebUser
 {

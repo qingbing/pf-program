@@ -1,6 +1,6 @@
 <?php
 // 申明命名空间
-namespace Program\models;
+namespace Program\Models;
 
 // 引用类
 use Abstracts\DbModel;

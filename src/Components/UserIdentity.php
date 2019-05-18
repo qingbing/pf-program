@@ -9,7 +9,7 @@
 namespace Program\Components;
 
 
-use Program\models\User;
+use Program\Models\User;
 
 class UserIdentity extends \Abstracts\UserIdentity
 {

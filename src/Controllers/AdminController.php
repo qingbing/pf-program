@@ -6,7 +6,7 @@ use DbSupports\Builder\Criteria;
 use Program\Components\Controller;
 use Program\Components\Log;
 use Program\Components\Pub;
-use Program\models\Admin;
+use Program\Models\Admin;
 
 /**
  * Created by generate tool of phpcorner.

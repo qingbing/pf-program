@@ -6,8 +6,8 @@ use DbSupports\Builder\Criteria;
 use Program\Components\Controller;
 use Program\Components\Log;
 use Program\Components\Pub;
-use Program\models\HeaderCategory;
-use Program\models\HeaderOption;
+use Program\Models\HeaderCategory;
+use Program\Models\HeaderOption;
 
 /**
  * Created by generate tool of phpcorner.

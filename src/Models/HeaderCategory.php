@@ -65,7 +65,7 @@ class HeaderCategory extends DbModel
     public function relations()
     {
         return [
-            'subOptionCount' => [self::STAT, '\Program\models\HeaderOption', 'key'],
+            'subOptionCount' => [self::STAT, '\Program\Models\HeaderOption', 'key'],
         ];
     }
 

@@ -12,7 +12,7 @@ namespace Program\Controllers;
 use DbSupports\Builder\Criteria;
 use Program\Components\Controller;
 use Program\Components\Pub;
-use Program\models\User;
+use Program\Models\User;
 
 class AjaxController extends Controller
 {
