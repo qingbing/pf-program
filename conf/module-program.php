@@ -15,7 +15,7 @@ return [
             'cookieKey' => 'program.user.username',
             'rememberTime' => 864000,
             'namespace' => 'program.user',
-            'expire' => 20,
+            'expire' => 600,
             'prefix' => 'program.user_',
             'loginUrl' => ['program/login/index'],
             'returnUrl' => ['program/default/index'],
