@@ -201,6 +201,16 @@ class ReplaceSetting extends DbModel
         }
     }
 
+    /**
+     * 获取用户自定义替换字段
+     * @return mixed
+     */
+    public function getDefineReplaceFields()
+    {
+        $res = Coding::json_decode($this->replace_fields, true);
+        return is_array($res) ? $res : [];
+    }
+
     const TYPE_SYSTEM = 'system';
     const TYPE_LOGIN = 'login';
     const TYPE_CLIENT = 'client';
