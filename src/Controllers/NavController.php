@@ -79,7 +79,7 @@ class NavController extends Controller
         if (isset($_POST['Nav'])) {
             $model->setAttributes($_POST['Nav']);
             $model->parent_id = $this->parentId;
-            $this->logMessage = '添加导航-{$model->label}';
+            $this->logMessage = "添加导航-{$model->label}";
             if ($model->save()) {
                 $this->logKeyword = $model->id;
                 $this->logData = $model->getAttributes();
@@ -236,8 +236,6 @@ class NavController extends Controller
 
     /**
      * 刷新排序
-     */
-    /**
      * @throws \Exception
      */
     public function actionRefreshSortOrder()
