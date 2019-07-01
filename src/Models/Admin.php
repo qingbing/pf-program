@@ -5,6 +5,8 @@ namespace Program\Models;
 // 引用类
 use Abstracts\DbModel;
 use DbSupports\Builder\Criteria;
+use DbSupports\Expression;
+use Program\Components\Pub;
 use Tools\UploadManager;
 
 /**
@@ -69,21 +71,23 @@ class Admin extends DbModel
         return [
             ['sex, refer_uid, login_times, is_super, is_enable', 'required'],
             ['is_super, is_enable', 'numerical', 'integerOnly' => true],
-            ['username', 'string', 'maxLength' => 20],
+            ['username', 'string', 'maxLength' => 50],
             ['password', 'string', 'maxLength' => 32],
             ['nickname, real_name', 'string', 'maxLength' => 30],
             ['avatar', 'string', 'maxLength' => 200],
             ['mobile, phone, qq, register_ip, last_login_ip', 'string', 'maxLength' => 15],
             ['address', 'string', 'maxLength' => 255],
             ['zip_code', 'string', 'maxLength' => 6],
-            ['refer_uid, login_times', 'string', 'maxLength' => 10],
+            ['refer_uid, login_times', 'numerical', 'integerOnly' => true],
             ['sex', 'in', 'range' => ['1', '2', '3']],
 
             ['birthday', 'date'],
-            ['register_time, last_login_time', 'datetime'],
+            ['last_login_time', 'datetime'],
 
             ['nickname, username', self::UNIQUE],
             ['username', 'email'],
+
+            ['register_time', 'safe'],
         ];
     }
 
@@ -159,6 +163,17 @@ class Admin extends DbModel
         if ('' === $this->birthday) {
             $this->birthday = null;
         }
+        return true;
+    }
+
+    /**
+     * 在数据插入之前执行
+     * @return bool
+     * @throws \Helper\Exception
+     */
+    protected function beforeInsert()
+    {
+        $this->register_ip = Pub::getApp()->getRequest()->getUserHostAddress();
         return true;
     }
 

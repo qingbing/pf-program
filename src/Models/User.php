@@ -14,7 +14,7 @@ use Tools\UploadManager;
  * Created by generate tool of phpcorner.
  * Link         :   http://www.phpcorner.net/
  * User         :   qingbing
- * Date         :   2019-02-28
+ * Date         :   2019-06-27
  * Version      :   1.0
  *
  * This is the model class for table "program_user".
@@ -70,23 +70,24 @@ class User extends DbModel
     public function rules()
     {
         return [
-            ['sex, refer_uid, login_times, is_super, is_enable', 'required'],
-            ['is_super, is_enable', 'numerical', 'integerOnly' => true],
-            ['username', 'string', 'maxLength' => 20],
+            ['sex, is_super, is_enable', 'required'],
+            ['refer_uid, login_times, is_super, is_enable', 'numerical', 'integerOnly' => true],
+            ['username', 'string', 'maxLength' => 50],
             ['password', 'string', 'maxLength' => 32],
             ['nickname, real_name', 'string', 'maxLength' => 30],
             ['avatar', 'string', 'maxLength' => 200],
             ['mobile, phone, qq, register_ip, last_login_ip', 'string', 'maxLength' => 15],
             ['address', 'string', 'maxLength' => 255],
             ['zip_code', 'string', 'maxLength' => 6],
-            ['refer_uid, login_times', 'string', 'maxLength' => 10],
             ['sex', 'in', 'range' => ['1', '2', '3']],
 
             ['birthday', 'date'],
-            ['register_time, last_login_time', 'datetime'],
+            ['last_login_time', 'datetime'],
 
             ['nickname, username', self::UNIQUE],
             ['username', 'email'],
+
+            ['register_time', 'safe'],
         ];
     }
 
@@ -267,7 +268,6 @@ class User extends DbModel
     {
         $this->refer_uid = Pub::getUser()->getUid();
         $this->register_ip = Pub::getApp()->getRequest()->getUserHostAddress();
-        $this->register_time = new Expression('NOW()');
         return true;
     }
 
