@@ -11,15 +11,15 @@ CREATE TABLE IF NOT EXISTS `pub_form_category` (
   `key` varchar(100) NOT NULL COMMENT '表单索引或标志，全站唯一',
   `name` varchar(100) NOT NULL COMMENT '表单类别名称',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '表单类别描述',
-  `sort_order` tinyint(4) NOT NULL DEFAULT '0' COMMENT '排序',
-  `is_setting` tinyint(1) NOT NULL DEFAULT '1' COMMENT '配置类型[0:搜集表单，1:配置项]',
-  `is_open` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否开放，否时管理员不可操作（不可见）',
-  `is_enable` tinyint(1) NOT NULL DEFAULT '1' COMMENT '启用状态',
+  `sort_order` tinyint(4) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序',
+  `is_setting` tinyint(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '配置类型[0:搜集表单，1:配置项]',
+  `is_open` tinyint(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否开放，否时管理员不可操作（不可见）',
+  `is_enable` tinyint(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '启用状态',
   PRIMARY KEY (`key`),
-  KEY (`sort_order`),
-  KEY (`is_setting`),
-  KEY (`is_open`),
-  KEY (`is_enable`)
+  KEY `idx_sortOrder` (`sort_order`),
+  KEY `idx_isSetting` (`is_setting`),
+  KEY `idx_isOpen` (`is_open`),
+  KEY `idx_isEnable` (`is_enable`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='表单设置类别表';
 
 -- --------------------------------------------------------
@@ -29,25 +29,25 @@ CREATE TABLE IF NOT EXISTS `pub_form_category` (
 --
 
 CREATE TABLE IF NOT EXISTS `pub_form_option` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `key` varchar(100) NOT NULL COMMENT '所属表单分类（来自form_category）',
   `code` varchar(100) NOT NULL COMMENT '字段名',
   `label` varchar(100) NOT NULL COMMENT '表单显示名',
   `default` varchar(100) NOT NULL DEFAULT '' COMMENT '默认值',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '分类配置描述',
-  `sort_order` tinyint(4) NOT NULL DEFAULT '0' COMMENT '当前分类排序',
+  `sort_order` tinyint(4) UNSIGNED NOT NULL DEFAULT '0' COMMENT '当前分类排序',
   `input_type` enum('text','select','textarea','editor','checkbox','checkbox_list','radio_list','password','hidden','file') NOT NULL DEFAULT 'text' COMMENT '输入类型',
   `data_type` enum('required','email','url','ip','phone','mobile','contact','fax','zip','time','date','username','password','compare','preg','string','numeric','integer','money','file','select','choice','checked') DEFAULT 'string' COMMENT '前端数据验证',
   `input_data` text COMMENT '非直接输入框的json键值对',
-  `allow_empty` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否允许为空',
+  `allow_empty` tinyint(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '是否允许为空',
   `compare_field` varchar(100) NOT NULL DEFAULT '' COMMENT '对比字段，只对compare的数据类型有效，对应于compareField',
   `pattern` varchar(200) NOT NULL DEFAULT '' COMMENT '正则匹配表达式，对正则匹配验证有效',
   `tip_msg` varchar(200) NOT NULL DEFAULT '' COMMENT '页面提示信息，对应于tipMsg',
   `error_msg` varchar(200) NOT NULL DEFAULT '' COMMENT '页面错误提示信息，对应于errorMsg',
   `empty_msg` varchar(200) NOT NULL DEFAULT '' COMMENT '信息为空提示信息，对应于emptyMsg',
-  `min` tinyint(4) DEFAULT NULL COMMENT '最小值/最小长度，对应于min,minLength',
+  `min` int(10) DEFAULT NULL COMMENT '最小值/最小长度，对应于min,minLength',
   `min_msg` varchar(200) NOT NULL DEFAULT '' COMMENT '最小值提示信息，对应于minErrorMsg',
-  `max` tinyint(4) DEFAULT NULL COMMENT '最大值/最大长度，对应于max,maxLength',
+  `max` int(10) DEFAULT NULL COMMENT '最大值/最大长度，对应于max,maxLength',
   `max_msg` varchar(200) NOT NULL DEFAULT '' COMMENT '最大值提示信息，对应于maxErrorMsg',
   `file_extensions` varchar(200) NOT NULL DEFAULT '' COMMENT '文件上传时支持的文件后缀类型,用|分隔',
 
@@ -58,12 +58,12 @@ CREATE TABLE IF NOT EXISTS `pub_form_option` (
   `css_id` varchar(100) NOT NULL DEFAULT '' COMMENT '表单元素ID',
   `css_class` varchar(100) NOT NULL DEFAULT '' COMMENT '表单元素的类',
   `css_style` varchar(200) NOT NULL DEFAULT '' COMMENT '输入表单元素的样式',
-  `is_enable` tinyint(1) NOT NULL DEFAULT '1' COMMENT '表单项目启用状态',
+  `is_enable` tinyint(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '表单项目启用状态',
   PRIMARY KEY (`id`),
-  KEY (`sort_order`),
-  UNIQUE KEY `key_code` (`code`,`key`),
-  UNIQUE KEY `key_label` (`label`,`key`),
-  KEY (`is_enable`)
+  UNIQUE KEY `uk_key_code` (`code`,`key`),
+  UNIQUE KEY `uk_key_label` (`label`,`key`),
+  KEY `idx_sortOrder` (`sort_order`),
+  KEY `idx_isEnable` (`is_enable`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='表单配置项目' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -103,6 +103,4 @@ INSERT INTO `pub_form_option` (`id`, `key`, `code`, `label`, `default`, `descrip
 INSERT INTO `pub_form_option` (`id`, `key`, `code`, `label`, `default`, `description`, `sort_order`, `input_type`, `data_type`, `input_data`, `compare_field`, `pattern`, `tip_msg`, `error_msg`, `empty_msg`, `min`, `min_msg`, `max`, `max_msg`, `file_extensions`, `callback`, `ajax_url`, `tip_id`, `css_id`, `css_class`, `css_style`, `allow_empty`, `is_enable`) VALUES ('19', 'email-noreply', 'field_preg', 'preg', '', '', '0', 'text', 'preg', '', '', '/^.{6,32}$/', '输入匹配值', '匹配不正确', '{attribute}不能为空', NULL, '', NULL, '', '', '', '', '', '', '', '', '0', '1');
 INSERT INTO `pub_form_option` (`id`, `key`, `code`, `label`, `default`, `description`, `sort_order`, `input_type`, `data_type`, `input_data`, `compare_field`, `pattern`, `tip_msg`, `error_msg`, `empty_msg`, `min`, `min_msg`, `max`, `max_msg`, `file_extensions`, `callback`, `ajax_url`, `tip_id`, `css_id`, `css_class`, `css_style`, `allow_empty`, `is_enable`) VALUES ('20', 'email-noreply', 'field_file', 'file', '', '', '0', 'file', 'file', '', '', '', '上传文件', '文件输入', '{attribute}不能为空', NULL, '', NULL, '', '', '', '', '', '', '', '', '0', '1');
 INSERT INTO `pub_form_option` (`id`, `key`, `code`, `label`, `default`, `description`, `sort_order`, `input_type`, `data_type`, `input_data`, `compare_field`, `pattern`, `tip_msg`, `error_msg`, `empty_msg`, `min`, `min_msg`, `max`, `max_msg`, `file_extensions`, `callback`, `ajax_url`, `tip_id`, `css_id`, `css_class`, `css_style`, `allow_empty`, `is_enable`) VALUES ('21', 'email-noreply', 'field_select', 'select', '', '', '0', 'select', 'select', '{\"1\":\"密\",\"2\":\"男\",\"3\":\"女\"}', '', '', '选择', '选择项目输入', '{attribute}不能为空', NULL, '', NULL, '', '', '', '', '', '', '', '', '0', '1');
-INSERT INTO `pub_form_option` (`id`, `key`, `code`, `label`, `default`, `description`, `sort_order`, `input_type`, `data_type`, `input_data`, `compare_field`, `pattern`, `tip_msg`, `error_msg`, `empty_msg`, `min`, `min_msg`, `max`, `max_msg`, `file_extensions`, `callback`, `ajax_url`, `tip_id`, `css_id`, `css_class`, `css_style`, `allow_empty`, `is_enable`) VALUES ('22', 'email-noreply', 'field_radioList', 'radioList', '', '', '0', 'radio_list', 'radioList', '{\"1\":\"密\",\"2\":\"男\",\"3\":\"女\"}', '', '', '单选', '单选组输入', '{attribute}不能为空', NULL, '', NULL, '', '', '', '', '', '', '', '', '0', '1');
-INSERT INTO `pub_form_option` (`id`, `key`, `code`, `label`, `default`, `description`, `sort_order`, `input_type`, `data_type`, `input_data`, `compare_field`, `pattern`, `tip_msg`, `error_msg`, `empty_msg`, `min`, `min_msg`, `max`, `max_msg`, `file_extensions`, `callback`, `ajax_url`, `tip_id`, `css_id`, `css_class`, `css_style`, `allow_empty`, `is_enable`) VALUES ('23', 'email-noreply', 'field_checkbox', 'checkbox', '', '', '0', 'checkbox', 'checkbox', '', '', '', '确认checkbox', 'Checkbox勾选', '{attribute}不能为空', NULL, '', NULL, '', '', '', '', '', '', '', '', '0', '1');
-INSERT INTO `pub_form_option` (`id`, `key`, `code`, `label`, `default`, `description`, `sort_order`, `input_type`, `data_type`, `input_data`, `compare_field`, `pattern`, `tip_msg`, `error_msg`, `empty_msg`, `min`, `min_msg`, `max`, `max_msg`, `file_extensions`, `callback`, `ajax_url`, `tip_id`, `css_id`, `css_class`, `css_style`, `allow_empty`, `is_enable`) VALUES ('24', 'email-noreply', 'field_checkboxList', 'checkboxList', '', '', '0', 'checkbox_list', 'checkboxList', '{\"orange\":\"橙子\",\"apple\":\"苹果\",\"banana\":\"香蕉\",\"pear\":\"梨子\",\"peach\":\"桃子\"}', '', '', '勾选check box组', 'Checkbox勾选组', '{attribute}不能为空', '2', '', '3', '', '', '', '', 'checkbox_list_tip_id', '', '', '', '0', '1');
+

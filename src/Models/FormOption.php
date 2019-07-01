@@ -162,7 +162,7 @@ class FormOption extends DbModel
                 $this->input_data = '';
                 $this->pattern = '';
                 $this->error_msg = '';
-                $this->min = '';
+                $this->min = null;
                 $this->min_msg = '';
                 $this->max = '';
                 $this->max_msg = '';

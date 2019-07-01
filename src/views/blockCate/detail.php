@@ -33,8 +33,8 @@ $options = [
         'callable' => ['\Tools\Labels', 'enable'],
         'type' => 'view',
     ],
-    'create_time',
-    'update_time',
+    'created_at',
+    'updated_at',
 ];
 if (BlockCategory::TYPE_CONTENT == $model->type) {
     $options['content'] = [
