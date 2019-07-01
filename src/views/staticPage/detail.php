@@ -21,10 +21,10 @@ $options = [
     'keywords',
     'description',
     'sort_order',
-    'create_time',
-    'ip',
-    'uid',
-    'update_time',
+    'op_ip',
+    'op_uid',
+    'created_at',
+    'updated_at',
     'content',
 ];
 $this->widget('\Widgets\FormGenerator', [
