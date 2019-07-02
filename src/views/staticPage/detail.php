@@ -25,7 +25,14 @@ $options = [
     'op_uid',
     'created_at',
     'updated_at',
-    'content',
+    'content' => [
+        'type' => 'view',
+        'callable' => function ($value) use ($model) {
+            return <<<EDO
+<div style="border:1px dashed #666;" class="padding">{$value}</div>
+EDO;
+        }
+    ],
 ];
 $this->widget('\Widgets\FormGenerator', [
     'model' => $model,
