@@ -34,10 +34,10 @@ use Tools\UploadManager;
  * @property string zip_code
  * @property string refer_uid
  * @property string register_ip
- * @property string register_time
+ * @property string register_at
  * @property string login_times
  * @property string last_login_ip
- * @property string last_login_time
+ * @property string last_login_at
  * @property integer is_super
  * @property integer is_enable
  */
@@ -82,12 +82,12 @@ class Admin extends DbModel
             ['sex', 'in', 'range' => ['1', '2', '3']],
 
             ['birthday', 'date'],
-            ['last_login_time', 'datetime'],
+            ['last_login_at', 'datetime'],
 
             ['nickname, username', self::UNIQUE],
             ['username', 'email'],
 
-            ['register_time', 'safe'],
+            ['register_at', 'safe'],
         ];
     }
 
@@ -122,10 +122,10 @@ class Admin extends DbModel
             'zip_code' => '邮政编码',
             'refer_uid' => '引荐人UID',
             'register_ip' => '注册IP',
-            'register_time' => '注册时间',
+            'register_at' => '注册时间',
             'login_times' => '登录次数',
             'last_login_ip' => '登录IP',
-            'last_login_time' => '登录时间',
+            'last_login_at' => '登录时间',
             'is_super' => '是否超管',
             'is_enable' => '启用状态',
         ];
