@@ -62,7 +62,7 @@ $this->widget('\Widgets\TableView', [
     'dataProcessing' => function ($data) {
         $operate = '<a href="' . $this->createUrl('detail', ['key' => $data->key]) . '" class="text-info w-modal" data-mode="custom"><i class="fa fa-list-alt">详情</i></a>';
         $operate .= ' <a href="' . $this->createUrl('edit', ['key' => $data->key]) . '" class="text-primary w-modal" data-mode="custom"><i class="fa fa-edit">编辑</i></a>';
-        $operate .= ' <a href="' . $this->createUrl('delete', ['key' => $data->key]) . '" class="text-danger CONFIRM_AJAX" data-reload="true" data-message="确认删除该选项么？"><i class="fa fa-trash">删除</i></a>';
+        $operate .= ' <a href="' . $this->createUrl('delete', ['key' => $data->key]) . '" class="text-danger ACTION-HREF" data-message="确认删除该选项么？" data-is-ajax="true" data-reload="true"><i class="fa fa-trash">删除</i></a>';
         if (BlockCategory::TYPE_CONTENT == $data->type) {
             $operate .= ' <a href="' . $this->createUrl('content', ['key' => $data->key]) . '" class="text-warning w-modal" target="_blank"><i class="fa fa-edit">设置内容</i></a>';
         } else if (BlockCategory::TYPE_IMAGE_LINK == $data->type) {

@@ -71,7 +71,7 @@ $this->widget('\Widgets\TableView', [
         }
 
         $operate = '<a href="' . $this->createUrl('edit', ['key' => $data->key]) . '" class="text-primary w-modal" data-mode="custom"><i class="fa fa-edit">编辑</i></a>';
-        $operate .= ' <a href="' . $this->createUrl('delete', ['key' => $data->key]) . '" class="text-danger CONFIRM_AJAX" data-reload="true" data-message="确认删除该表头么？"><i class="fa fa-trash">删除</i></a>';
+        $operate .= ' <a href="' . $this->createUrl('delete', ['key' => $data->key]) . '" class="text-danger ACTION-HREF" data-message="确认删除该表头么？" data-is-ajax="true" data-reload="true"><i class="fa fa-trash">删除</i></a>';
         $process = [
             'is_open' => Labels::YesNo($data->is_open),
             'replace_type' => implode('<br>', $replace_label),

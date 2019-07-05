@@ -23,7 +23,7 @@ use Html;
         <i class="fa fa-plus">添加</i>
     </a>
     <a href="<?php echo $this->createUrl('refreshSortOrder', ['key' => $category->key]); ?>"
-       class="btn btn-primary CONFIRM_AJAX" data-message="确认刷新表头选项顺序么？" data-reload="true"><i
+       class="btn btn-primary ACTION-HREF" data-message="确认刷新表头选项顺序么？" data-is-ajax="true" data-reload="true"><i
                 class="fa fa-refresh">刷新排序</i></a>
 </div>
 <div class="row">
@@ -79,7 +79,7 @@ use Html;
                 <td class="text-center" data-name="sort_order" data-type="upDown" data-reload="true"
                     data-ajax-url="<?php echo $this->createUrl('upDown', ['key' => $category->key, 'id' => $model->id]) ?>">
                     <a href="<?php echo $this->createUrl('delete', ['key' => $category->key, 'id' => $model->id]) ?>"
-                       class="btn btn-danger CONFIRM_AJAX" data-reload="true" data-message="确认要删除该选项么？">
+                       class="btn btn-danger ACTION-HREF" data-message="确认要删除该选项么？" data-is-ajax="true" data-reload="true">
                         <i class="fa fa-trash">删除</i>
                     </a>
                 </td>

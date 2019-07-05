@@ -14,7 +14,7 @@ $user = \Program\Components\Pub::getUser();
         <div class="w-navbar-right">
             <ul class="w-nav">
                 <?php if ($user->getIsSuper()) { ?>
-                    <li><a href="<?php echo $module->createUrl('/flush/runtime'); ?>" class="text-warning AJAX" data-message="确认清理缓存么？">清理缓存</a></li>
+                    <li><a href="<?php echo $module->createUrl('/flush/runtime'); ?>" class="text-warning ACTION-HREF" data-message="确认清理缓存么？" data-is-ajax="true">清理缓存</a></li>
                 <?php } ?>
                 <li>
                     <a href="<?php echo $module->createUrl('/personal/index'); ?>"><?php echo $user->getState('nickname'); ?></a>
@@ -24,4 +24,3 @@ $user = \Program\Components\Pub::getUser();
         </div>
     </div>
 </div>
-    
