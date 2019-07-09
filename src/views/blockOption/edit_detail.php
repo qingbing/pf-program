@@ -6,7 +6,6 @@ namespace Program\Controllers;
 use FormGenerator;
 use Helper\HttpException;
 use Html;
-use Program\Components\Pub;
 use Program\Models\BlockCategory;
 use Tools\Labels;
 
@@ -21,7 +20,7 @@ use Tools\Labels;
  * @var \Program\Models\BlockCategory $category
  * @var \Program\Models\BlockOption $model
  */
-\ClientScript::getInstance()->registerScriptFile(Pub::getAssetBaseUrl() . '/js/jquery.form.js');
+\ClientScript::getInstance()->registerScriptFile(\Assets001::getAssetBaseUrl() . '/js/jquery.form.js');
 echo Html::beginForm('', 'post', [
     'id' => 'ajaxForm',
     'data-callback' => 'PL.saveAjaxFileCallback',

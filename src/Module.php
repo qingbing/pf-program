@@ -28,8 +28,6 @@ class Module extends \Render\Abstracts\Module
                 'errorAction' => '//program/default/error',
             ],
         ]);
-        // 资源复制
-        Pub::publishAssets();
     }
 
     /**
